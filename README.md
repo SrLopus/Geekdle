@@ -89,7 +89,7 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.m
 
 ## 👥 Autores
 
-- Tu Nombre - [@tu-usuario](https://github.com/tu-usuario)
+- Raúl Jiménez - [@SrLopus](https://github.com/SrLopus)
 
 ## 🙏 Agradecimientos
 
@@ -209,4 +209,4 @@ Si tienes alguna pregunta o sugerencia, por favor abre un issue en el repositori
 - `setCategory`: Cambia categoría
   - Actualiza estado
   - Carga nueva palabra
-  - Maneja estilos 
+  - Maneja estilos

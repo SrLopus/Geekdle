@@ -89,7 +89,7 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.m
 
 ## 👥 Autores
 
-- Raúl Jiménez - [@SrLopus](https://github.com/SrLopus)
+- Raúl Juan Martí - [@SrLopus](https://github.com/SrLopus)
 
 ## 🙏 Agradecimientos
 

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="135.3262mm"
+   height="129.49867mm"
+   viewBox="0 0 135.32619 129.49868"
+   version="1.1"
+   id="svg1"
+   xml:space="preserve"
+   sodipodi:docname="wip-IG.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   inkscape:export-filename="logo Raul Juan\logo_naranja.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.33527148"
+     inkscape:cx="1176.6584"
+     inkscape:cy="138.69357"
+     inkscape:window-width="2560"
+     inkscape:window-height="1377"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1"
+     showguides="false"><inkscape:page
+       x="0"
+       y="0"
+       width="135.32619"
+       height="129.49869"
+       id="page2"
+       margin="0"
+       bleed="0" /></sodipodi:namedview><defs
+     id="defs1"><style
+       id="style1">
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        fill: #828691;
+      }
+
+      .cls-5, .cls-6, .cls-7 {
+        fill: #84292a;
+      }
+
+      .cls-5, .cls-8, .cls-9 {
+        stroke: #e92e92;
+        stroke-miterlimit: 22.93;
+        stroke-width: .22px;
+      }
+
+      .cls-10 {
+        clip-path: url(#clippath-4);
+      }
+
+      .cls-11, .cls-2, .cls-6 {
+        fill-rule: evenodd;
+      }
+
+      .cls-11, .cls-8, .cls-12 {
+        fill: #a87935;
+      }
+
+      .cls-13 {
+        fill: #3e3e3e;
+      }
+
+      .cls-14, .cls-15, .cls-16, .cls-17, .cls-18, .cls-19 {
+        fill: #fff;
+      }
+
+      .cls-14, .cls-16, .cls-17, .cls-18, .cls-19, .cls-20 {
+        stroke: #fff;
+      }
+
+      .cls-14, .cls-16, .cls-17, .cls-18, .cls-19, .cls-3 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-21 {
+        fill: #2d2d2d;
+      }
+
+      .cls-22 {
+        fill: #383838;
+      }
+
+      .cls-16 {
+        stroke-width: 2.6px;
+      }
+
+      .cls-23 {
+        fill: #e1e1e1;
+      }
+
+      .cls-24, .cls-20, .cls-9 {
+        fill: none;
+      }
+
+      .cls-25 {
+        fill: #303030;
+      }
+
+      .cls-26 {
+        fill: #e0e0e0;
+      }
+
+      .cls-27 {
+        clip-path: url(#clippath-1);
+      }
+
+      .cls-28 {
+        fill: #404040;
+      }
+
+      .cls-17 {
+        stroke-width: 4.7px;
+      }
+
+      .cls-29 {
+        fill: #bfbfbf;
+      }
+
+      .cls-18 {
+        stroke-width: 4px;
+      }
+
+      .cls-30 {
+        clip-path: url(#clippath-5);
+      }
+
+      .cls-31 {
+        fill: #3a3a3a;
+      }
+
+      .cls-32 {
+        fill: #454545;
+      }
+
+      .cls-33 {
+        fill: #373737;
+      }
+
+      .cls-19 {
+        stroke-width: .75px;
+      }
+
+      .cls-34 {
+        font-family: HeavitasNeue-Light, 'IBZAM S+ Heavitas Neue';
+        font-size: 97.82px;
+        font-weight: 300;
+      }
+
+      .cls-35 {
+        clip-path: url(#clippath-3);
+      }
+
+      .cls-20 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 6px;
+      }
+
+      .cls-36 {
+        fill: #474747;
+      }
+
+      .cls-37 {
+        fill: #d0d0d0;
+      }
+
+      .cls-38 {
+        fill: #484848;
+      }
+
+      .cls-39 {
+        fill: #dedede;
+      }
+
+      .cls-40 {
+        fill: #545454;
+      }
+
+      .cls-41 {
+        fill: #272e39;
+      }
+
+      .cls-42 {
+        clip-path: url(#clippath-2);
+      }
+
+      .cls-43 {
+        fill: #dcdcdc;
+      }
+
+      .cls-44 {
+        fill: #dadada;
+      }
+
+      .cls-45 {
+        fill: #fefefe;
+      }
+
+      .cls-46 {
+        fill: #f8f8f8;
+      }
+
+      .cls-47 {
+        fill: #00ad84;
+      }
+
+      .cls-3 {
+        stroke: #828691;
+        stroke-width: 2px;
+      }
+
+      .cls-48 {
+        clip-path: url(#clippath);
+      }
+
+      .cls-49 {
+        fill: #5c5c5c;
+      }
+
+      .cls-4 {
+        font-family: AGBookRounded-Regular, 'HCPUY U+ AG Book Rounded';
+        font-size: 40.28px;
+      }
+    </style></defs><g
+     id="g58"
+     transform="translate(-2151.0761,-660.09903)"><path
+       id="rect50-0"
+       style="fill:#ff534f;fill-opacity:1;stroke:none;stroke-width:0.0797423;stroke-linecap:round;stroke-linejoin:round"
+       d="m 2202.2397,660.09903 c -1.1819,0 -2.1337,0.95108 -2.1337,2.13293 v 19.09342 c 0,1.14084 -0.8858,2.06655 -2.0103,2.12949 h -19.4039 c -1.182,0 -2.133,0.95108 -2.133,2.13293 v 12.86616 c 0,1.18186 -0.9508,2.13378 -2.1328,2.13378 h -12.8835 c -1.1819,0 -2.1328,0.95192 -2.1328,2.13379 v 27.90555 c 0,1.18185 0.9509,2.13378 2.1328,2.13378 h 12.8835 c 1.182,0 2.1328,-0.95193 2.1328,-2.13378 v -9.4425 c 0,-1.18186 0.951,-2.13293 2.133,-2.13293 h 30.5634 l 13.5428,13.54283 c 1.9088,1.90888 4.9821,1.90888 6.891,0 l 13.5428,-13.54283 h 15.9185 c 1.1818,0 2.133,0.95107 2.133,2.13293 v 9.4425 c 0,1.18185 0.9508,2.13378 2.1329,2.13378 h 12.7007 c 1.1819,0 2.1329,-0.95193 2.1329,-2.13378 v -27.90555 c 0,-1.18187 -0.951,-2.13379 -2.1329,-2.13379 h -12.7007 c -1.1821,0 -2.1329,-0.95192 -2.1329,-2.13378 V 685.5878 c 0,-1.18185 -0.9512,-2.13293 -2.133,-2.13293 h -19.3351 c -1.182,0 -2.133,-0.95191 -2.133,-2.13379 v -19.08912 c 0,-1.18185 -0.9519,-2.13293 -2.1338,-2.13293 z" /><path
+       id="path52-15"
+       style="fill:#080c0d;fill-opacity:1;stroke:none;stroke-width:0.0829806;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       d="m 2176.4996,740.16565 c -13.5413,0.0539 -25.4235,1.56232 -25.4235,4.73839 v 8.59516 c 0,0 3.9075,0.63487 5.7075,9.76241 3.5166,17.83049 4.6537,26.33609 27.4443,26.33609 9.6651,0 17.6694,-1.658 22.1756,-6.59173 5.2643,-5.76357 6.9399,-18.20734 7.7135,-21.4725 0.7446,-3.14307 1.8334,-5.1088 4.6218,-5.1089 2.7883,-10e-5 3.8779,1.96563 4.6226,5.1089 0.7735,3.26516 2.4494,15.70893 7.7135,21.4725 4.5064,4.93373 12.5105,6.59173 22.1758,6.59173 22.7905,0 23.9273,-8.5056 27.4441,-26.33609 1.8,-9.12754 5.7075,-9.76241 5.7075,-9.76241 v -8.59516 c 0,-4.61974 -25.1387,-5.71185 -43.9569,-3.93051 -11.0711,1.04799 -14.9976,4.83702 -23.7066,4.83702 -8.709,0 -12.6346,-3.78903 -23.7058,-4.83702 -5.8806,-0.55667 -12.3782,-0.83239 -18.5334,-0.80788 z m 9.1149,7.20065 c 6.9549,-0.0594 13.9937,0.56067 16.7907,2.23326 5.5937,3.34517 4.7203,6.98715 4.0257,11.88933 -0.6947,4.90217 -2.1134,12.15649 -4.8696,15.89016 -2.7561,3.73369 -4.2685,4.16622 -9.4751,4.92365 -5.2065,0.75743 -14.7194,1.27825 -19.6861,-1.2873 -4.9663,-2.56557 -6.7422,-12.91152 -7.3688,-19.64058 -0.6265,-6.72905 -0.6276,-10.07417 4.2959,-12.16462 2.4618,-1.04523 9.3326,-1.7844 16.2873,-1.8439 z m 66.2493,0 c 6.9549,0.0594 13.8257,0.79867 16.2874,1.8439 4.9237,2.09045 4.9223,5.43557 4.2957,12.16462 -0.6265,6.72906 -2.4023,17.07501 -7.3687,19.64058 -4.9665,2.56555 -14.4794,2.04473 -19.6861,1.2873 -5.2064,-0.75743 -6.7189,-1.18996 -9.4749,-4.92365 -2.7564,-3.73367 -4.175,-10.98799 -4.8697,-15.89016 -0.6945,-4.90218 -1.568,-8.54416 4.0258,-11.88933 2.7967,-1.67259 9.8359,-2.29276 16.7905,-2.23326 z" /></g></svg>

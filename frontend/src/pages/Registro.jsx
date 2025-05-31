@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useGameMode } from '../context/GameModeContext';
 import { motion } from 'framer-motion';
 import AnimatedBackground from '../components/AnimatedBackground';
 
@@ -34,6 +35,7 @@ export default function Registro() {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const { register } = useAuth();
+    const { setGameMode } = useGameMode();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -48,6 +50,7 @@ export default function Registro() {
 
         try {
             await register({ username, email, password });
+            setGameMode('infinite');
             navigate('/');
         } catch (err) {
             if (err.errors) {

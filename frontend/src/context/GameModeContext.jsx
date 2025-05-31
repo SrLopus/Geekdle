@@ -1,12 +1,25 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { useCategory } from './CategoryContext';
 
 const GameModeContext = createContext();
 
 export function GameModeProvider({ children }) {
     const [gameMode, setGameMode] = useState('daily');
+    const { setSelectedCategory } = useCategory();
+
+    // Efecto para manejar la inicialización del modo infinito
+    useEffect(() => {
+        if (gameMode === 'infinite') {
+            setSelectedCategory('tecnologia');
+        }
+    }, [gameMode, setSelectedCategory]);
+
+    const handleSetGameMode = (mode) => {
+        setGameMode(mode);
+    };
 
     return (
-        <GameModeContext.Provider value={{ gameMode, setGameMode }}>
+        <GameModeContext.Provider value={{ gameMode, setGameMode: handleSetGameMode }}>
             {children}
         </GameModeContext.Provider>
     );

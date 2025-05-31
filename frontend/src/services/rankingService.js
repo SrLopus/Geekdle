@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_URL = import.meta.env.VITE_API_URL || 'https://geekdle.com/api';
 
 export const rankingService = {
     /**
@@ -9,7 +9,7 @@ export const rankingService = {
      */
     getTopPlayers: async () => {
         try {
-            const response = await axios.get(`${API_URL}/api/users/top`, {
+            const response = await axios.get(`${API_URL}/users/top`, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -29,7 +29,7 @@ export const rankingService = {
      */
     getCategoryRanking: async (category) => {
         try {
-            const response = await axios.get(`${API_URL}/api/users/top/${category}`, {
+            const response = await axios.get(`${API_URL}/users/top/${category}`, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ export const rankingService = {
      */
     getModeRanking: async (mode) => {
         try {
-            const response = await axios.get(`${API_URL}/api/users/top/mode/${mode}`, {
+            const response = await axios.get(`${API_URL}/users/top/mode/${mode}`, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -69,7 +69,7 @@ export const rankingService = {
      */
     getUserRanking: async (userId) => {
         try {
-            const response = await axios.get(`${API_URL}/api/users/${userId}/ranking`, {
+            const response = await axios.get(`${API_URL}/users/${userId}/ranking`, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'

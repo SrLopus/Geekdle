@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api/admin';
+const API_URL = 'https://geekdle.com/api/admin';
 
 class AdminService {
     constructor() {

@@ -29,7 +29,7 @@ export default function Perfil() {
             const token = localStorage.getItem('token');
             if (!token) return;
 
-            const response = await axios.get('http://localhost:8000/api/game/stats', {
+            const response = await axios.get('https://geekdle.com/api/game/stats', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Accept': 'application/json'
@@ -72,7 +72,7 @@ export default function Perfil() {
                 throw new Error('No hay token de autenticación');
             }
 
-            const response = await axios.put('http://localhost:8000/api/user/avatar-color', 
+            const response = await axios.put('https://geekdle.com/api/user/avatar-color', 
                 { avatarColor: tempColor },
                 {
                     headers: {

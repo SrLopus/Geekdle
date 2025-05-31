@@ -67,18 +67,18 @@ function AnimatedRoutes() {
 export default function App() {
     return (
         <AuthProvider>
-            <GameModeProvider>
-                <CategoryProvider>
+            <CategoryProvider>
+                <GameModeProvider>
                     <Router>
                         <div className="min-h-screen bg-black">
-                            <Navegacion />
-                            <main className="relative" style={{ minHeight: 'calc(100vh - 4rem)' }}>
+                            <div className="relative" style={{ minHeight: 'calc(100vh - 4rem)' }}>
+                                <Navegacion />
                                 <AnimatedRoutes />
-                            </main>
+                            </div>
                         </div>
                     </Router>
-                </CategoryProvider>
-            </GameModeProvider>
+                </GameModeProvider>
+            </CategoryProvider>
         </AuthProvider>
     );
 }

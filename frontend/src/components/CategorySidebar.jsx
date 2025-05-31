@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCategory } from '../context/CategoryContext';
+import { useAuth } from '../context/AuthContext';
+import { checkPlayerProgress } from '../services/wordService';
 
 const categories = [
     { id: 'tecnologia', name: 'Tecnología', icon: '💻' },
@@ -17,8 +19,47 @@ const categories = [
 
 const CategorySidebar = () => {
     const [isVisible, setIsVisible] = useState(true);
+    const [completedCategories, setCompletedCategories] = useState(new Set());
     const { selectedCategory, setSelectedCategory, getCategoryStyle } = useCategory();
+    const { isAuthenticated } = useAuth();
     const currentStyle = getCategoryStyle(selectedCategory);
+
+    useEffect(() => {
+        const checkCompletedCategories = async () => {
+            if (!isAuthenticated) return;
+
+            const completed = new Set();
+            for (const category of categories) {
+                try {
+                    const progress = await checkPlayerProgress('daily', category.id);
+                    if (progress.has_played) {
+                        completed.add(category.id);
+                    }
+                } catch (error) {
+                    console.error(`Error al verificar categoría ${category.id}:`, error);
+                }
+            }
+            setCompletedCategories(completed);
+        };
+
+        checkCompletedCategories();
+
+        // Añadir listener para el evento categoryCompleted
+        const handleCategoryCompleted = (event) => {
+            const { category } = event.detail;
+            setCompletedCategories(prev => {
+                const newSet = new Set(prev);
+                newSet.add(category);
+                return newSet;
+            });
+        };
+
+        window.addEventListener('categoryCompleted', handleCategoryCompleted);
+
+        return () => {
+            window.removeEventListener('categoryCompleted', handleCategoryCompleted);
+        };
+    }, [isAuthenticated]);
 
     const toggleVisibility = () => {
         setIsVisible(!isVisible);
@@ -81,6 +122,7 @@ const CategorySidebar = () => {
                         <div className="h-[500px] overflow-y-auto custom-scrollbar">
                             {categories.map((category, index) => {
                                 const categoryStyle = getCategoryStyle(category.id);
+                                const isCompleted = completedCategories.has(category.id);
                                 return (
                                     <motion.div
                                         key={category.id}
@@ -106,7 +148,20 @@ const CategorySidebar = () => {
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
                                         >
-                                            <span className="text-2xl">{category.icon}</span>
+                                            <div className="relative">
+                                                <span className="text-2xl">{category.icon}</span>
+                                                {isCompleted && (
+                                                    <motion.div
+                                                        initial={{ scale: 0 }}
+                                                        animate={{ scale: 1 }}
+                                                        className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center"
+                                                    >
+                                                        <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                                        </svg>
+                                                    </motion.div>
+                                                )}
+                                            </div>
                                             <span 
                                                 className="font-medium text-base"
                                                 style={{

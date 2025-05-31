@@ -9,6 +9,8 @@ import adminService from '../services/adminService';
 
 const AdminPanel = () => {
     const [users, setUsers] = useState([]);
+    const [filteredUsers, setFilteredUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [selectedUser, setSelectedUser] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [showToast, setShowToast] = useState(false);
@@ -41,10 +43,20 @@ const AdminPanel = () => {
         }
     }, [user, token, navigate]);
 
+    useEffect(() => {
+        const filtered = users.filter(user => 
+            user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            user.role.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredUsers(filtered);
+    }, [searchTerm, users]);
+
     const fetchUsers = async () => {
         try {
             const data = await adminService.getUsers();
             setUsers(data);
+            setFilteredUsers(data);
         } catch (error) {
             console.error('Error al cargar usuarios:', error);
             if (error.status === 401) {
@@ -175,9 +187,9 @@ const AdminPanel = () => {
     }
 
     return (
-        <div className="min-h-screen bg-black text-white p-8 pt-16 pb-32 relative">
+        <div className="min-h-screen bg-black text-white p-8 pt-8 pb-32 relative">
             <AnimatedBackground />
-            <div className="max-w-7xl mx-auto relative z-10 mt-8">
+            <div className="max-w-7xl mx-auto relative z-10 mt-4">
                 <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-4">
                         <h1 className="text-3xl font-black tracking-wider bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
@@ -200,21 +212,21 @@ const AdminPanel = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        className="bg-gray-900/50 backdrop-blur-xl rounded-xl mb-16 border border-white/5 shadow-xl overflow-hidden"
+                        className="bg-gray-900/50 backdrop-blur-xl rounded-xl mb-16 border border-white/5 shadow-xl max-w-4xl mx-auto mt-4"
                     >
                         {/* Header del panel de edición */}
-                        <div className="p-6 border-b border-white/5 bg-gradient-to-r from-gray-900/50 to-emerald-900/20">
+                        <div className="p-4 border-b border-white/5 bg-gradient-to-r from-gray-900/50 to-emerald-900/20">
                             <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-3">
                                     <div 
-                                        className="h-12 w-12 rounded-xl flex items-center justify-center text-xl font-black text-white shadow-lg"
+                                        className="h-10 w-10 rounded-xl flex items-center justify-center text-lg font-black text-white shadow-lg"
                                         style={{ backgroundColor: formData.avatarColor }}
                                     >
                                         {formData.username.charAt(0).toUpperCase()}
                                     </div>
                                     <div>
-                                        <h2 className="text-2xl font-bold text-emerald-400">Editar Usuario</h2>
-                                        <p className="text-sm text-white/60">ID: {selectedUser.id}</p>
+                                        <h2 className="text-xl font-bold text-emerald-400">Editar Usuario</h2>
+                                        <p className="text-xs text-white/60">ID: {selectedUser.id}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3">
@@ -238,74 +250,74 @@ const AdminPanel = () => {
                             </div>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="p-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <form onSubmit={handleSubmit} className="p-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {/* Columna izquierda - Información básica */}
-                                <div className="space-y-6">
-                                    <div className="bg-gray-800/30 rounded-xl p-6 border border-white/5">
-                                        <h3 className="text-sm font-medium text-emerald-400 mb-4">Información Básica</h3>
-                                        <div className="space-y-4">
-                                <div>
-                                                <label className="block mb-2 text-sm font-medium text-white/60">Username</label>
-                                    <input
-                                        type="text"
-                                        name="username"
-                                        value={formData.username}
-                                        onChange={handleChange}
-                                                    className={`w-full p-3 rounded-lg bg-gray-800/50 border ${
+                                <div className="space-y-4">
+                                    <div className="bg-gray-800/30 rounded-xl p-4 border border-white/5">
+                                        <h3 className="text-sm font-medium text-emerald-400 mb-3">Información Básica</h3>
+                                        <div className="space-y-3">
+                                            <div>
+                                                <label className="block mb-1 text-sm font-medium text-white/60">Username</label>
+                                                <input
+                                                    type="text"
+                                                    name="username"
+                                                    value={formData.username}
+                                                    onChange={handleChange}
+                                                    className={`w-full p-2 rounded-lg bg-gray-800/50 border ${
                                                         formErrors.username 
                                                             ? 'border-red-500/50 focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50' 
                                                             : 'border-white/5 focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50'
                                                     } transition-all duration-300`}
-                                    />
+                                                />
                                                 {formErrors.username && (
-                                                    <p className="mt-1 text-sm text-red-400">{formErrors.username}</p>
+                                                    <p className="mt-1 text-xs text-red-400">{formErrors.username}</p>
                                                 )}
-                                </div>
-                                <div>
-                                                <label className="block mb-2 text-sm font-medium text-white/60">Email</label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                                    className={`w-full p-3 rounded-lg bg-gray-800/50 border ${
+                                            </div>
+                                            <div>
+                                                <label className="block mb-1 text-sm font-medium text-white/60">Email</label>
+                                                <input
+                                                    type="email"
+                                                    name="email"
+                                                    value={formData.email}
+                                                    onChange={handleChange}
+                                                    className={`w-full p-2 rounded-lg bg-gray-800/50 border ${
                                                         formErrors.email 
                                                             ? 'border-red-500/50 focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50' 
                                                             : 'border-white/5 focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50'
                                                     } transition-all duration-300`}
-                                    />
+                                                />
                                                 {formErrors.email && (
-                                                    <p className="mt-1 text-sm text-red-400">{formErrors.email}</p>
+                                                    <p className="mt-1 text-xs text-red-400">{formErrors.email}</p>
                                                 )}
-                                </div>
-                                <div>
-                                                <label className="block mb-2 text-sm font-medium text-white/60">Rol</label>
-                                    <select
-                                        name="role"
-                                        value={formData.role}
-                                        onChange={handleChange}
-                                                    className={`w-full p-3 rounded-lg bg-gray-800/50 border ${
+                                            </div>
+                                            <div>
+                                                <label className="block mb-1 text-sm font-medium text-white/60">Rol</label>
+                                                <select
+                                                    name="role"
+                                                    value={formData.role}
+                                                    onChange={handleChange}
+                                                    className={`w-full p-2 rounded-lg bg-gray-800/50 border ${
                                                         formErrors.role 
                                                             ? 'border-red-500/50 focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50' 
                                                             : 'border-white/5 focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50'
                                                     } transition-all duration-300`}
-                                    >
+                                                >
                                                     <option value="">Seleccionar rol</option>
-                                        <option value="user">Usuario</option>
-                                        <option value="moderator">Moderador</option>
-                                        <option value="admin">Administrador</option>
-                                    </select>
+                                                    <option value="user">Usuario</option>
+                                                    <option value="moderator">Moderador</option>
+                                                    <option value="admin">Administrador</option>
+                                                </select>
                                                 {formErrors.role && (
-                                                    <p className="mt-1 text-sm text-red-400">{formErrors.role}</p>
+                                                    <p className="mt-1 text-xs text-red-400">{formErrors.role}</p>
                                                 )}
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="bg-gray-800/30 rounded-xl p-6 border border-white/5">
-                                        <h3 className="text-sm font-medium text-emerald-400 mb-4">Estado del Usuario</h3>
-                                        <div className="flex items-center p-3 rounded-lg bg-gray-800/50 border border-white/5">
+                                    <div className="bg-gray-800/30 rounded-xl p-4 border border-white/5">
+                                        <h3 className="text-sm font-medium text-emerald-400 mb-3">Estado del Usuario</h3>
+                                        <div className="flex items-center p-2 rounded-lg bg-gray-800/50 border border-white/5">
                                             <input
                                                 type="checkbox"
                                                 name="is_active"
@@ -319,63 +331,63 @@ const AdminPanel = () => {
                                 </div>
 
                                 {/* Columna derecha - Progreso y Personalización */}
-                                <div className="space-y-6">
-                                    <div className="bg-gray-800/30 rounded-xl p-6 border border-white/5">
-                                        <h3 className="text-sm font-medium text-emerald-400 mb-4">Progreso</h3>
-                                        <div className="space-y-4">
-                                <div>
-                                                <label className="block mb-2 text-sm font-medium text-white/60">Nivel</label>
-                                    <input
-                                        type="number"
-                                        name="level"
-                                        value={formData.level}
-                                        onChange={handleChange}
+                                <div className="space-y-4">
+                                    <div className="bg-gray-800/30 rounded-xl p-4 border border-white/5">
+                                        <h3 className="text-sm font-medium text-emerald-400 mb-3">Progreso</h3>
+                                        <div className="space-y-3">
+                                            <div>
+                                                <label className="block mb-1 text-sm font-medium text-white/60">Nivel</label>
+                                                <input
+                                                    type="number"
+                                                    name="level"
+                                                    value={formData.level}
+                                                    onChange={handleChange}
                                                     min="0"
-                                                    className={`w-full p-3 rounded-lg bg-gray-800/50 border ${
+                                                    className={`w-full p-2 rounded-lg bg-gray-800/50 border ${
                                                         formErrors.level 
                                                             ? 'border-red-500/50 focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50' 
                                                             : 'border-white/5 focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50'
                                                     } transition-all duration-300`}
-                                    />
+                                                />
                                                 {formErrors.level && (
-                                                    <p className="mt-1 text-sm text-red-400">{formErrors.level}</p>
+                                                    <p className="mt-1 text-xs text-red-400">{formErrors.level}</p>
                                                 )}
-                                </div>
-                                <div>
-                                                <label className="block mb-2 text-sm font-medium text-white/60">Puntos</label>
-                                    <input
-                                        type="number"
-                                        name="points"
-                                        value={formData.points}
-                                        onChange={handleChange}
+                                            </div>
+                                            <div>
+                                                <label className="block mb-1 text-sm font-medium text-white/60">Puntos</label>
+                                                <input
+                                                    type="number"
+                                                    name="points"
+                                                    value={formData.points}
+                                                    onChange={handleChange}
                                                     min="0"
-                                                    className={`w-full p-3 rounded-lg bg-gray-800/50 border ${
+                                                    className={`w-full p-2 rounded-lg bg-gray-800/50 border ${
                                                         formErrors.points 
                                                             ? 'border-red-500/50 focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50' 
                                                             : 'border-white/5 focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50'
                                                     } transition-all duration-300`}
                                                 />
                                                 {formErrors.points && (
-                                                    <p className="mt-1 text-sm text-red-400">{formErrors.points}</p>
+                                                    <p className="mt-1 text-xs text-red-400">{formErrors.points}</p>
                                                 )}
                                             </div>
                                         </div>
-                                </div>
+                                    </div>
 
-                                    <div className="bg-gray-800/30 rounded-xl p-6 border border-white/5">
-                                        <h3 className="text-sm font-medium text-emerald-400 mb-4">Personalización</h3>
-                                <div>
-                                            <label className="block mb-2 text-sm font-medium text-white/60">Color de Avatar</label>
+                                    <div className="bg-gray-800/30 rounded-xl p-4 border border-white/5">
+                                        <h3 className="text-sm font-medium text-emerald-400 mb-3">Personalización</h3>
+                                        <div>
+                                            <label className="block mb-1 text-sm font-medium text-white/60">Color de Avatar</label>
                                             <div className="flex items-center gap-3">
-                                        <input
-                                            type="color"
-                                            name="avatarColor"
-                                            value={formData.avatarColor}
-                                            onChange={handleChange}
-                                                    className="w-12 h-12 rounded-lg cursor-pointer border border-white/5"
-                                        />
-                                                <div className="flex-1 p-3 rounded-lg bg-gray-800/50 border border-white/5">
-                                        <span className="text-sm text-white/60">{formData.avatarColor}</span>
+                                                <input
+                                                    type="color"
+                                                    name="avatarColor"
+                                                    value={formData.avatarColor}
+                                                    onChange={handleChange}
+                                                    className="w-10 h-10 rounded-lg cursor-pointer border border-white/5"
+                                                />
+                                                <div className="flex-1 p-2 rounded-lg bg-gray-800/50 border border-white/5">
+                                                    <span className="text-xs text-white/60">{formData.avatarColor}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -384,11 +396,11 @@ const AdminPanel = () => {
                             </div>
 
                             {/* Botones de acción */}
-                            <div className="flex space-x-4 pt-6 mt-6 border-t border-white/5">
+                            <div className="flex space-x-3 pt-4 mt-4 border-t border-white/5">
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className={`flex-1 px-6 py-3 rounded-lg text-sm font-medium text-white transition-all duration-300 shadow-lg ${
+                                    className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium text-white transition-all duration-300 shadow-lg ${
                                         isSubmitting
                                             ? 'bg-gray-500 cursor-not-allowed'
                                             : 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/20 hover:shadow-emerald-500/30'
@@ -403,7 +415,7 @@ const AdminPanel = () => {
                                         setSelectedUser(null);
                                         setFormErrors({});
                                     }}
-                                    className="px-6 py-3 rounded-lg text-sm font-medium text-white/60 hover:text-white bg-gray-800 hover:bg-gray-700 transition-all duration-300"
+                                    className="px-4 py-2 rounded-lg text-sm font-medium text-white/60 hover:text-white bg-gray-800 hover:bg-gray-700 transition-all duration-300"
                                 >
                                     Cancelar
                                 </button>
@@ -417,11 +429,39 @@ const AdminPanel = () => {
                         exit={{ opacity: 0, y: -20 }}
                         className="bg-gray-900/50 backdrop-blur-xl rounded-lg border border-white/5 shadow-xl overflow-hidden"
                     >
-                        <div className="overflow-x-auto">
-                            {users.length === 0 ? (
+                        <div className="p-4 border-b border-white/5">
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    placeholder="Buscar por nombre, email o rol..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="w-full p-3 pl-10 rounded-lg bg-gray-800/50 border border-white/5 focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 transition-all duration-300"
+                                />
+                                <svg 
+                                    className="w-5 h-5 text-white/40 absolute left-3 top-1/2 transform -translate-y-1/2" 
+                                    fill="none" 
+                                    stroke="currentColor" 
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path 
+                                        strokeLinecap="round" 
+                                        strokeLinejoin="round" 
+                                        strokeWidth={2} 
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
+                                    />
+                                </svg>
+                            </div>
+                        </div>
+                        <div className="overflow-x-auto max-h-[60vh] overflow-y-auto">
+                            {filteredUsers.length === 0 ? (
                                 <div className="p-8 text-center">
-                                    <div className="text-white/40 text-lg mb-2">No hay usuarios registrados</div>
-                                    <div className="text-white/20 text-sm">Los usuarios aparecerán aquí cuando se registren</div>
+                                    <div className="text-white/40 text-lg mb-2">
+                                        {searchTerm ? 'No se encontraron usuarios' : 'No hay usuarios registrados'}
+                                    </div>
+                                    <div className="text-white/20 text-sm">
+                                        {searchTerm ? 'Intenta con otros términos de búsqueda' : 'Los usuarios aparecerán aquí cuando se registren'}
+                                    </div>
                                 </div>
                             ) : (
                                 <table className="w-full">
@@ -437,7 +477,7 @@ const AdminPanel = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {users.map(user => (
+                                        {filteredUsers.map(user => (
                                             <motion.tr 
                                                 key={user.id} 
                                                 initial={{ opacity: 0 }}

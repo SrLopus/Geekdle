@@ -1,158 +1,99 @@
-import { useEffect, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { useCategory } from '../context/CategoryContext';
 
-const Star = ({ x, y, size, delay, color }) => (
-    <motion.div
-        initial={{ opacity: 0.2, scale: 0.8 }}
-        animate={{ 
-            opacity: [0.2, 1, 0.2],
-            scale: [0.8, 1.5, 0.8]
-        }}
-        transition={{
-            duration: 2,
-            delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-            repeatType: "loop"
-        }}
-        className="absolute rounded-full pointer-events-none"
-        style={{
-            left: `${x}%`,
-            top: `${y}%`,
-            width: `${size}px`,
-            height: `${size}px`,
-            backgroundColor: color,
-            boxShadow: `0 0 20px ${color}, 0 0 40px ${color}40`,
-            filter: 'blur(0.5px)'
-        }}
-    />
-);
-
-const ExplosionStar = ({ x, y, angle, distance, color }) => (
-    <motion.div
-        initial={{ 
-            x: 0,
-            y: 0,
-            scale: 0,
-            opacity: 1
-        }}
-        animate={{ 
-            x: Math.cos(angle) * distance,
-            y: Math.sin(angle) * distance,
-            scale: [0, 1.5, 0],
-            opacity: [1, 1, 0]
-        }}
-        transition={{
-            duration: 1.5,
-            ease: [0.25, 0.1, 0.25, 1],
-            times: [0, 0.5, 1]
-        }}
-        className="absolute rounded-full pointer-events-none"
-        style={{
-            left: `${x}%`,
-            top: `${y}%`,
-            width: '3px',
-            height: '3px',
-            backgroundColor: color,
-            boxShadow: `0 0 20px ${color}, 0 0 40px ${color}40`,
-            filter: 'blur(0.5px)'
-        }}
-    />
-);
-
-export default function AnimatedBackground() {
-    const [stars, setStars] = useState([]);
-    const [explosions, setExplosions] = useState([]);
-    const [isClicking, setIsClicking] = useState(false);
+const AnimatedBackground = () => {
+    const canvasRef = useRef(null);
+    const particlesRef = useRef([]);
+    const animationFrameRef = useRef(null);
     const { selectedCategory, getCategoryStyle } = useCategory();
     const categoryStyle = getCategoryStyle(selectedCategory);
+    const isMobile = window.innerWidth <= 768;
 
     useEffect(() => {
-        // Generar menos estrellas para mejor rendimiento
-        const newStars = Array.from({ length: 150 }, () => ({
-            x: Math.random() * 100,
-            y: Math.random() * 100,
-            size: Math.random() * 2 + 1,
-            delay: Math.random() * 2
-        }));
-        setStars(newStars);
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
 
-        // Actualizar las estrellas cada 2 segundos
-        const interval = setInterval(() => {
-            setStars(prevStars => 
-                prevStars.map(star => ({
-                    ...star,
-                    delay: Math.random() * 2
-                }))
-            );
-        }, 2000);
+        // Aumentar el número de partículas
+        const particleCount = isMobile ? 30 : 80; // Más partículas en ambos casos
 
-        return () => clearInterval(interval);
-    }, []);
-
-    // Limpiar explosiones antiguas
-    useEffect(() => {
-        const cleanupInterval = setInterval(() => {
-            setExplosions(prev => prev.filter(exp => Date.now() - exp.id < 1500));
-        }, 1000);
-
-        return () => clearInterval(cleanupInterval);
-    }, []);
-
-    const handleClick = useCallback((e) => {
-        if (isClicking) return;
-        
-        setIsClicking(true);
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-        // Crear nueva explosión con más estrellas y mayor distancia
-        const newExplosion = {
-            id: Date.now(),
-            x: x,
-            y: y,
-            stars: Array.from({ length: 25 }, () => ({
-                angle: Math.random() * Math.PI * 2,
-                distance: Math.random() * 300 + 100
-            }))
+        const createParticles = () => {
+            particlesRef.current = Array.from({ length: particleCount }, () => ({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                size: Math.random() * 2 + 1,
+                speedX: (Math.random() - 0.5) * 0.5,
+                speedY: (Math.random() - 0.5) * 0.5,
+                opacity: Math.random() * 0.3 + 0.05
+            }));
         };
 
-        setExplosions(prev => [...prev.slice(-2), newExplosion]);
+        const updateParticles = () => {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Dibujar fondo negro
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, width, height);
 
-        // Resetear el estado de clic después de un breve delay
-        setTimeout(() => {
-            setIsClicking(false);
-        }, 100);
-    }, [isClicking]);
+            particlesRef.current.forEach(particle => {
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+
+                // Mantener las partículas dentro del canvas
+                if (particle.x < 0) particle.x = width;
+                if (particle.x > width) particle.x = 0;
+                if (particle.y < 0) particle.y = height;
+                if (particle.y > height) particle.y = 0;
+
+                // Dibujar partícula con el color de la categoría
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fillStyle = categoryStyle.primaryColor;
+                ctx.globalAlpha = particle.opacity;
+                ctx.fill();
+
+                // Añadir efecto de brillo
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size * 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = categoryStyle.primaryColor;
+                ctx.globalAlpha = particle.opacity * 0.3;
+                ctx.fill();
+            });
+
+            animationFrameRef.current = requestAnimationFrame(updateParticles);
+        };
+
+        const handleResize = () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            createParticles();
+        };
+
+        createParticles();
+        updateParticles();
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            if (animationFrameRef.current) {
+                cancelAnimationFrame(animationFrameRef.current);
+            }
+        };
+    }, [selectedCategory, categoryStyle.primaryColor, isMobile]);
 
     return (
-        <div 
-            className="fixed inset-0 pointer-events-auto overflow-hidden bg-black z-0"
-            onClick={handleClick}
-            style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                zIndex: 0,
-                pointerEvents: 'auto'
-            }}
-        >
-            {stars.map((star, index) => (
-                <Star key={index} {...star} color={categoryStyle.primaryColor} />
-            ))}
-            <AnimatePresence>
-                {explosions.map(explosion => (
-                    <div key={explosion.id}>
-                        {explosion.stars.map((star, index) => (
-                            <ExplosionStar key={index} {...star} x={explosion.x} y={explosion.y} color={categoryStyle.primaryColor} />
-                        ))}
-                    </div>
-                ))}
-            </AnimatePresence>
-        </div>
+        <motion.canvas
+            ref={canvasRef}
+            className="fixed inset-0 w-full h-full bg-black"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            style={{ zIndex: 0 }}
+        />
     );
-} 
+};
+
+export default AnimatedBackground; 

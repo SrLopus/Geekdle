@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_URL = import.meta.env.VITE_API_URL || 'https://geekdle.com/api';
 
 // Variables para el caché
 let historialCache = null;
@@ -20,7 +20,7 @@ const historyService = {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`${API_URL}/api/games/history`, {
+            const response = await axios.get(`${API_URL}/games/history`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

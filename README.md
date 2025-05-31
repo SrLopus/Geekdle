@@ -1,6 +1,7 @@
 # 🎮 Geekdle
 
 Geekdle es un juego de palabras inspirado en Wordle, pero con un enfoque en la cultura geek. Adivina palabras relacionadas con tecnología, programación, videojuegos, anime, manga, cómics, películas, series, hardware e internet.
+🔗 Juega ahora en Geekdle.com
 
 ## 🌟 Características
 

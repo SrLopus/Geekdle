@@ -84,10 +84,6 @@ Geekdle es un juego de palabras inspirado en Wordle, pero con un enfoque en la c
 4. Push a la rama (`git push origin feature/AmazingFeature`)
 5. Abre un Pull Request
 
-## 📝 Licencia
-
-Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.md) para más detalles.
-
 ## 👥 Autores
 
 - Raúl Juan Martí - [@SrLopus](https://github.com/SrLopus)

@@ -298,28 +298,55 @@ export default function Juego() {
             let response;
             let wordWithoutAccents;
             let attempts = 0;
-            const maxAttempts = 5; // Máximo número de intentos para obtener una palabra no repetida
+            const maxAttempts = 15; // Aumentado a 15 intentos
+            const usedWords = new Set(Array.from(playedWords)); // Crear una copia del conjunto de palabras usadas
+
+            console.log('Palabras ya jugadas:', Array.from(usedWords));
 
             do {
                 // En modo infinito, pasar las palabras jugadas como parte del prompt
                 const prompt = gameMode === 'infinite' ? {
-                    excludeWords: Array.from(playedWords),
-                    category: selectedCategory
+                    excludeWords: Array.from(usedWords),
+                    category: selectedCategory,
+                    count: 5 // Solicitar 5 palabras a la vez para tener más opciones
                 } : null;
 
                 response = await getDailyWord(gameMode, selectedCategory, prompt);
+                
                 if (response.word) {
                     wordWithoutAccents = removeAccents(response.word);
                     attempts++;
-                }
-            } while (gameMode === 'infinite' && 
-                     playedWords.has(wordWithoutAccents) && 
-                     attempts < maxAttempts);
+                    
+                    // Verificar si la palabra ya fue usada
+                    if (usedWords.has(wordWithoutAccents)) {
+                        console.log('Palabra repetida encontrada:', wordWithoutAccents);
+                        continue;
+                    }
 
-            if (response.word) {
+                    // Verificar si la palabra es válida
+                    if (wordWithoutAccents.length < 4 || wordWithoutAccents.length > 8) {
+                        console.log('Palabra inválida por longitud:', wordWithoutAccents);
+                        continue;
+                    }
+                    
+                    // Añadir la palabra al conjunto de palabras usadas
+                    usedWords.add(wordWithoutAccents);
+                    break; // Salir del bucle si encontramos una palabra válida
+                }
+            } while (gameMode === 'infinite' && attempts < maxAttempts);
+
+            if (response.word && !usedWords.has(wordWithoutAccents)) {
                 setWord(wordWithoutAccents);
                 setWordLength(wordWithoutAccents.length);
                 setHints(response.hints || []);
+                
+                // Actualizar el conjunto de palabras jugadas
+                if (gameMode === 'infinite') {
+                    const newPlayedWords = new Set(usedWords);
+                    setPlayedWords(newPlayedWords);
+                    console.log('Nueva palabra añadida:', wordWithoutAccents);
+                    console.log('Total de palabras jugadas:', newPlayedWords.size);
+                }
                 
                 // Configurar el tiempo para la siguiente palabra
                 if (response.next_word_at) {
@@ -348,6 +375,8 @@ export default function Juego() {
                 setIsWordReady(true);
                 setIsInitialLoad(false);
                 setIsTransitioning(false);
+            } else {
+                throw new Error('No se pudo obtener una palabra válida después de varios intentos');
             }
         } catch (error) {
             console.error('Error al obtener la palabra:', error);
@@ -855,6 +884,7 @@ export default function Juego() {
             return;
         }
         setPlayedWords(new Set());
+        console.log('Categoría cambiada, reseteando palabras jugadas');
     }, [selectedCategory, isModeChangeBlocked]);
 
     // Efecto para detectar cambios en la altura de la ventana
@@ -863,15 +893,20 @@ export default function Juego() {
             const height = window.innerHeight;
             setWindowHeight(height);
             
-            // Calcular la escala basada en la altura
+            // Calcular la escala basada en la altura disponible
             let scale = 1;
-            if (height < 700) {
-                scale = 0.8;
-            } else if (height < 600) {
-                scale = 0.7;
-            } else if (height < 500) {
-                scale = 0.6;
+            const minSpace = 100; // Espacio mínimo requerido entre tablero y teclado
+            const keyboardHeight = 180; // Altura aproximada del teclado
+            const boardHeight = 400; // Altura aproximada del tablero
+            const totalRequiredHeight = boardHeight + keyboardHeight + minSpace;
+            
+            if (height < totalRequiredHeight) {
+                // Calcular la escala necesaria para que todo quepa
+                scale = (height - minSpace) / (boardHeight + keyboardHeight);
+                // Limitar la escala mínima
+                scale = Math.max(0.45, scale);
             }
+            
             setBoardScale(scale);
         };
 
@@ -888,10 +923,11 @@ export default function Juego() {
             const boardRect = boardRef.current.getBoundingClientRect();
             const keyboardRect = keyboardRef.current.getBoundingClientRect();
             const availableHeight = window.innerHeight;
-            const requiredHeight = boardRect.height + keyboardRect.height + 200; // 200px de margen
+            const requiredHeight = boardRect.height + keyboardRect.height + 100; // Espacio mínimo entre componentes
 
-            setShowSidebar(availableHeight >= requiredHeight);
-            setShowRanking(availableHeight >= requiredHeight);
+            // Ajustar la visibilidad de los componentes
+            setShowSidebar(availableHeight >= requiredHeight + 100); // +100 para el sidebar
+            setShowRanking(availableHeight >= requiredHeight + 100); // +100 para el ranking
         };
 
         checkSpace();
@@ -925,15 +961,38 @@ export default function Juego() {
         setGameOver(true);
     };
 
+    // Efecto para persistir las palabras jugadas
+    useEffect(() => {
+        if (gameMode === 'infinite' && playedWords.size > 0) {
+            localStorage.setItem(`playedWords_${selectedCategory}`, JSON.stringify(Array.from(playedWords)));
+        }
+    }, [playedWords, gameMode, selectedCategory]);
+
+    // Efecto para cargar las palabras jugadas al iniciar
+    useEffect(() => {
+        if (gameMode === 'infinite') {
+            const savedWords = localStorage.getItem(`playedWords_${selectedCategory}`);
+            if (savedWords) {
+                try {
+                    const parsedWords = JSON.parse(savedWords);
+                    setPlayedWords(new Set(parsedWords));
+                    console.log('Palabras jugadas cargadas:', parsedWords.length);
+                } catch (error) {
+                    console.error('Error al cargar palabras jugadas:', error);
+                }
+            }
+        }
+    }, [gameMode, selectedCategory]);
+
     return (
-        <div className="min-h-screen bg-black pt-4 sm:pt-8">
+        <div className="min-h-screen bg-black pt-2 sm:pt-4">
             {showSidebar && <CategorySidebar />}
-            <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
+            <div className="container mx-auto px-2 sm:px-4 py-1 sm:py-2">
                 <div className="flex-1 max-w-4xl mx-auto">
                     {!isMobile && <AnimatedBackground />}
                     
                     {/* Título y Contador */}
-                    <div className="relative z-10 w-full max-w-sm mx-auto mb-4 sm:mb-8">
+                    <div className="relative z-10 w-full max-w-sm mx-auto mb-2 sm:mb-4">
                         <motion.div 
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -1028,12 +1087,14 @@ export default function Juego() {
                         className="relative z-10 w-full mx-auto"
                         style={{
                             maxWidth: `min(95vw, ${wordLength * 4}rem)`,
-                            padding: '0 0.5rem'
+                            padding: '0 0.25rem',
+                            transform: `scale(${boardScale})`,
+                            transformOrigin: 'top center'
                         }}
                         initial={{ opacity: 0.5 }}
                         animate={{
                             opacity: isInitialLoad || isTransitioning ? 0.5 : 1,
-                            scale: isInitialLoad || isTransitioning ? 1 : 1
+                            scale: isInitialLoad || isTransitioning ? 1 : boardScale
                         }}
                         transition={{ duration: 0.2 }}
                     >
@@ -1094,15 +1155,17 @@ export default function Juego() {
                         </div>
                     </motion.div>
 
-                    {/* Teclado Virtual - Optimizado para móviles */}
-                    <motion.div
+                    {/* Teclado Virtual */}
+                    <motion.div 
                         ref={keyboardRef}
-                        className="fixed bottom-2 sm:bottom-8 w-full max-w-[500px] mx-auto left-0 right-0 py-2 sm:py-4 px-2 sm:px-4 z-10"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2 }}
+                        className="fixed bottom-2 sm:bottom-4 left-0 right-0 z-10 w-full mx-auto"
+                        style={{
+                            maxWidth: 'min(95vw, 32rem)',
+                            transform: `scale(${boardScale})`,
+                            transformOrigin: 'bottom center'
+                        }}
                     >
-                        <div className="w-full mx-auto space-y-1.5 sm:space-y-2">
+                        <div className="w-full mx-auto space-y-1.5 sm:space-y-2 px-2 sm:px-4">
                             {keyboardLayout.map((row, rowIndex) => (
                                 <div key={rowIndex} className="flex justify-center gap-1 sm:gap-1">
                                     {row.map((key) => {

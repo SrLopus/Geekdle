@@ -193,7 +193,10 @@ const Ranking = () => {
                                 </div>
                             </motion.div>
 
-                            <div className="overflow-y-auto custom-scrollbar" style={{ maxHeight: 'calc(80vh - 60px)' }}>
+                            <div className="overflow-y-auto custom-scrollbar" style={{ 
+                                maxHeight: window.innerWidth < 1024 ? 'calc(80vh - 60px)' : 'calc(500px - 60px)',
+                                height: '100%'
+                            }}>
                                 {error ? (
                                     <motion.div 
                                         initial={{ opacity: 0 }}

@@ -1102,9 +1102,9 @@ export default function Juego() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.2 }}
                     >
-                        <div className="w-full mx-auto space-y-1 sm:space-y-2">
+                        <div className="w-full mx-auto space-y-1.5 sm:space-y-2">
                             {keyboardLayout.map((row, rowIndex) => (
-                                <div key={rowIndex} className="flex justify-center gap-0.5 sm:gap-1">
+                                <div key={rowIndex} className="flex justify-center gap-1 sm:gap-1">
                                     {row.map((key) => {
                                         const keyState = getKeyState(key);
                                         const isSpecialKey = key === 'ENTER' || key === '⌫';
@@ -1121,8 +1121,8 @@ export default function Juego() {
                                                 transition={{ duration: 0.1 }}
                                                 onClick={() => handleKeyPress(key)}
                                                 disabled={!isWordReady || isTransitioning || (!isSpecialKey && currentGuess.length >= wordLength)}
-                                                className={`px-2 sm:px-3 py-2 sm:py-3 rounded-lg text-xs sm:text-sm font-bold uppercase
-                                                    ${isSpecialKey ? 'w-16 sm:w-20' : 'w-8 sm:w-10'}
+                                                className={`px-2 sm:px-3 py-3 sm:py-3 rounded-lg text-sm sm:text-sm font-bold uppercase
+                                                    ${isSpecialKey ? 'w-20 sm:w-20' : 'w-10 sm:w-10'}
                                                     ${isSpecialKey ? 'bg-gray-700/50 hover:bg-gray-600/50' : keyColors[keyState]}
                                                     ${(!isSpecialKey && currentGuess.length >= wordLength) || !isWordReady || isTransitioning ? 'opacity-50 cursor-not-allowed' : ''}
                                                     text-white transition-all duration-200 shadow-lg

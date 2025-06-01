@@ -128,13 +128,13 @@ const CategorySidebar = () => {
                                 window.innerWidth < 1024 
                                     ? 'bottom-0 left-0 right-0 w-full rounded-t-2xl' 
                                     : 'left-8 top-36 w-80 rounded-xl'
-                            } bg-black/40 backdrop-blur-xl border border-white/5 overflow-hidden shadow-2xl z-40`}
+                            } bg-black/40 backdrop-blur-xl border border-white/5 overflow-hidden shadow-2xl z-40 flex flex-col`}
                             style={{
                                 maxHeight: window.innerWidth < 1024 ? '80vh' : '500px'
                             }}
                     >
                         <motion.div 
-                                className="p-3 lg:p-4 border-b border-white/5 bg-black/20 flex items-center justify-between"
+                                className="p-3 lg:p-4 border-b border-white/5 bg-black/20 flex items-center justify-between flex-shrink-0"
                             initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1 }}
@@ -160,8 +160,8 @@ const CategorySidebar = () => {
                                     </svg>
                                 </button>
                         </motion.div>
-                            <div className="overflow-y-auto custom-scrollbar" style={{ maxHeight: 'calc(80vh - 60px)' }}>
-                                <div className="grid grid-cols-2 lg:grid-cols-1 gap-1 lg:gap-0">
+                            <div className="overflow-y-auto custom-scrollbar flex-1">
+                                <div className="grid grid-cols-2 lg:grid-cols-1 gap-1 lg:gap-0 p-2">
                             {categories.map((category, index) => {
                                 const categoryStyle = getCategoryStyle(category.id);
                                 const isCompleted = completedCategories.has(category.id);

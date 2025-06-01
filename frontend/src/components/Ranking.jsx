@@ -10,7 +10,7 @@ const Ranking = () => {
     const [friendsRanking, setFriendsRanking] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [isVisible, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
     const [activeTab, setActiveTab] = useState('global');
     const { user } = useAuth();
     const { selectedCategory, getCategoryStyle } = useCategory();

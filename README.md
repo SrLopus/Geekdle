@@ -127,8 +127,7 @@ php artisan serve
 ```
 Geekdle/
 ├── frontend/          # Aplicación React
-├── backend/           # API Laravel
-└── docs/             # Documentación
+└── backend/           # API Laravel
 ```
 
 ### Scripts Disponibles

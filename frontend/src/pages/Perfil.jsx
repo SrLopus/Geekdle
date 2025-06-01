@@ -228,60 +228,60 @@ export default function Perfil() {
                 `}
             </style>
 
-            <div className="w-full max-w-4xl space-y-8 relative z-10 mt-4">
+            <div className="w-full max-w-3xl lg:max-w-4xl space-y-4 sm:space-y-6 lg:space-y-8 relative z-10 mt-2 sm:mt-4">
                 {/* Header del Perfil */}
                 <div className="relative">
                     <div 
-                        className="absolute inset-0 blur-3xl transition-all duration-700"
+                        className="absolute inset-0 blur-2xl lg:blur-3xl transition-all duration-700"
                         style={{ 
                             background: `radial-gradient(circle at center, ${tempColor}25 0%, transparent 70%)`,
-                            boxShadow: `0 0 30px ${tempColor}20`
+                            boxShadow: `0 0 20px ${tempColor}20`
                         }}
                     />
                     <div 
-                        className="relative bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 transition-all duration-500"
+                        className="relative bg-white/5 backdrop-blur-xl rounded-xl lg:rounded-2xl p-3 sm:p-4 lg:p-6 border border-white/10 transition-all duration-500"
                         style={{
-                            boxShadow: `0 0 30px ${tempColor}20, 0 0 15px ${tempColor}10 inset`
+                            boxShadow: `0 0 20px ${tempColor}20, 0 0 10px ${tempColor}10 inset`
                         }}
                     >
-                        <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                        <div className="flex flex-col md:flex-row items-center md:items-start gap-3 sm:gap-4 lg:gap-6">
                             {/* Avatar y Nombre */}
-                            <div className="flex flex-col items-center md:items-start gap-4">
+                            <div className="flex flex-col items-center md:items-start gap-2 sm:gap-3 lg:gap-4">
                                 <div 
-                                    className="h-24 w-24 rounded-2xl flex items-center justify-center text-4xl font-black text-white transition-all duration-500 hover:scale-105 hover:rotate-3 shadow-lg"
+                                    className="h-16 w-16 sm:h-20 sm:w-20 lg:h-24 lg:w-24 rounded-xl lg:rounded-2xl flex items-center justify-center text-2xl sm:text-3xl lg:text-4xl font-black text-white transition-all duration-500 hover:scale-105 hover:rotate-3 shadow-lg"
                                     style={{ 
                                         backgroundColor: tempColor,
-                                        boxShadow: `0 0 30px ${tempColor}40`
+                                        boxShadow: `0 0 20px ${tempColor}40`
                                     }}
                                 >
                                     {user?.username?.charAt(0).toUpperCase()}
                                 </div>
                                 <div className="text-center md:text-left">
-                                    <h1 className="text-3xl font-black tracking-wider text-white">
+                                    <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-wider text-white">
                                         {user?.username}
                                     </h1>
-                                    <p className="text-white/60 text-sm tracking-wide mt-1">{user?.email}</p>
+                                    <p className="text-white/60 text-xs sm:text-sm tracking-wide mt-0.5">{user?.email}</p>
                                 </div>
                             </div>
 
                             {/* Estadísticas */}
-                            <div className="flex-1 grid grid-cols-3 gap-3 mt-4 md:mt-0">
+                            <div className="flex-1 grid grid-cols-3 gap-2 sm:gap-3 mt-3 md:mt-0">
                                 <motion.div 
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.5, delay: 0.1 }}
-                                    className="bg-white/5 rounded-lg p-3 border border-white/10 transition-all duration-500 hover:bg-white/10"
+                                    className="bg-white/5 rounded-lg p-2 sm:p-3 border border-white/10 transition-all duration-500 hover:bg-white/10"
                                     style={{
-                                        boxShadow: `0 0 20px ${tempColor}10`
+                                        boxShadow: `0 0 15px ${tempColor}10`
                                     }}
                                 >
-                                    <p className="text-white/40 text-xs">Nivel</p>
+                                    <p className="text-white/40 text-xs sm:text-sm">Nivel</p>
                                     <motion.p 
                                         key={stats?.user?.level || 1}
                                         initial={{ scale: 0.5, opacity: 0 }}
                                         animate={{ scale: 1, opacity: 1 }}
                                         transition={{ duration: 0.5, delay: 0.2 }}
-                                        className="text-xl font-bold text-white mt-0.5"
+                                        className="text-base sm:text-lg lg:text-xl font-bold text-white mt-0.5"
                                     >
                                         {stats ? stats.user?.level : ''}
                                     </motion.p>
@@ -290,18 +290,18 @@ export default function Perfil() {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.5, delay: 0.2 }}
-                                    className="bg-white/5 rounded-lg p-3 border border-white/10 transition-all duration-500 hover:bg-white/10"
+                                    className="bg-white/5 rounded-lg p-2 sm:p-3 border border-white/10 transition-all duration-500 hover:bg-white/10"
                                     style={{
-                                        boxShadow: `0 0 20px ${tempColor}10`
+                                        boxShadow: `0 0 15px ${tempColor}10`
                                     }}
                                 >
-                                    <p className="text-white/40 text-xs">Puntos</p>
+                                    <p className="text-white/40 text-xs sm:text-sm">Puntos</p>
                                     <motion.p 
                                         key={stats?.user?.points || 0}
                                         initial={{ scale: 0.5, opacity: 0 }}
                                         animate={{ scale: 1, opacity: 1 }}
                                         transition={{ duration: 0.5, delay: 0.3 }}
-                                        className="text-xl font-bold text-white mt-0.5"
+                                        className="text-base sm:text-lg lg:text-xl font-bold text-white mt-0.5"
                                     >
                                         {stats ? stats.user?.points : ''}
                                     </motion.p>
@@ -310,18 +310,18 @@ export default function Perfil() {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.5, delay: 0.3 }}
-                                    className="bg-white/5 rounded-lg p-3 border border-white/10 transition-all duration-500 hover:bg-white/10"
+                                    className="bg-white/5 rounded-lg p-2 sm:p-3 border border-white/10 transition-all duration-500 hover:bg-white/10"
                                     style={{
-                                        boxShadow: `0 0 20px ${tempColor}10`
+                                        boxShadow: `0 0 15px ${tempColor}10`
                                     }}
                                 >
-                                    <p className="text-white/40 text-xs">Total Victorias</p>
+                                    <p className="text-white/40 text-xs sm:text-sm">Total Victorias</p>
                                     <motion.p 
                                         key={stats?.stats?.total_wins || 0}
                                         initial={{ scale: 0.5, opacity: 0 }}
                                         animate={{ scale: 1, opacity: 1 }}
                                         transition={{ duration: 0.5, delay: 0.4 }}
-                                        className="text-xl font-bold text-white mt-0.5"
+                                        className="text-base sm:text-lg lg:text-xl font-bold text-white mt-0.5"
                                     >
                                         {stats ? stats.stats?.total_wins : ''}
                                     </motion.p>
@@ -330,25 +330,25 @@ export default function Perfil() {
                         </div>
 
                         {/* Barra de Progresión */}
-                        <div className="mt-8">
-                            <div className="flex items-center justify-between mb-2">
-                                <span className="text-white/80 text-sm font-medium">Progreso al siguiente nivel</span>
+                        <div className="mt-4 sm:mt-5 lg:mt-6">
+                            <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                                <span className="text-white/80 text-xs sm:text-sm font-medium">Progreso al siguiente nivel</span>
                                 <div className="flex flex-col items-end">
-                                    <span className="text-white/60 text-xs">
+                                    <span className="text-white/60 text-xs sm:text-sm">
                                         {stats?.user?.points - ((stats?.user?.level - 1) * 100)}/100 pts
                                     </span>
-                                    <span className="text-white/40 text-xs">
+                                    <span className="text-white/40 text-xs sm:text-sm">
                                         Total: {stats?.user?.points} pts
                                     </span>
                                 </div>
                             </div>
-                            <div className="h-3 bg-white/5 rounded-full overflow-hidden">
+                            <div className="h-1.5 sm:h-2 lg:h-3 bg-white/5 rounded-full overflow-hidden">
                                 <div 
                                     className="h-full transition-all duration-700 ease-out"
                                     style={{ 
                                         width: `${((stats?.user?.points - ((stats?.user?.level - 1) * 100)) / 100) * 100}%`,
                                         backgroundColor: levelColor,
-                                        boxShadow: `0 0 20px ${levelColor}40`
+                                        boxShadow: `0 0 15px ${levelColor}40`
                                     }}
                                 />
                             </div>
@@ -358,16 +358,16 @@ export default function Perfil() {
 
                 {/* Tabs y Contenido */}
                 <div 
-                    className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden transition-all duration-500"
+                    className="bg-white/5 backdrop-blur-xl rounded-xl lg:rounded-2xl border border-white/10 overflow-hidden transition-all duration-500"
                     style={{
-                        boxShadow: `0 0 40px ${tempColor}15`
+                        boxShadow: `0 0 30px ${tempColor}15`
                     }}
                 >
                     {/* Tabs */}
                     <div className="flex border-b border-white/10">
                         <button
                             onClick={() => handleTabChange('estadisticas')}
-                            className={`flex-1 px-6 py-4 text-sm font-medium transition-all duration-300 relative ${
+                            className={`flex-1 px-4 py-3 lg:px-6 lg:py-4 text-sm font-medium transition-all duration-300 relative ${
                                 activeTab === 'estadisticas'
                                     ? 'text-white'
                                     : 'text-white/60 hover:text-white/80'
@@ -378,14 +378,14 @@ export default function Perfil() {
                                 <div 
                                     className="absolute bottom-0 left-0 w-full h-0.5 bg-white transition-all duration-300"
                                     style={{
-                                        boxShadow: `0 0 10px ${tempColor}`
+                                        boxShadow: `0 0 8px ${tempColor}`
                                     }}
                                 />
                             )}
                         </button>
                         <button
                             onClick={() => handleTabChange('perfil')}
-                            className={`flex-1 px-6 py-4 text-sm font-medium transition-all duration-300 relative ${
+                            className={`flex-1 px-4 py-3 lg:px-6 lg:py-4 text-sm font-medium transition-all duration-300 relative ${
                                 activeTab === 'perfil'
                                     ? 'text-white'
                                     : 'text-white/60 hover:text-white/80'
@@ -396,7 +396,7 @@ export default function Perfil() {
                                 <div 
                                     className="absolute bottom-0 left-0 w-full h-0.5 bg-white transition-all duration-300"
                                     style={{
-                                        boxShadow: `0 0 10px ${tempColor}`
+                                        boxShadow: `0 0 8px ${tempColor}`
                                     }}
                                 />
                             )}
@@ -404,84 +404,84 @@ export default function Perfil() {
                     </div>
 
                     {/* Contenido de las pestañas */}
-                    <div className="p-6">
+                    <div className="p-3 sm:p-4 lg:p-6">
                         <div 
                             className={`transition-all duration-300 ${
                                 isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
                             }`}
                         >
                             {activeTab === 'estadisticas' && (
-                                <div className="space-y-4">
-                                    <div className="grid grid-cols-2 gap-3">
+                                <div className="space-y-3 sm:space-y-4">
+                                    <div className="grid grid-cols-2 gap-2 sm:gap-3">
                                         <div 
-                                            className="bg-white/5 rounded-lg p-3 border border-white/10 transition-all duration-500 hover:bg-white/10"
+                                            className="bg-white/5 rounded-lg p-2 sm:p-3 border border-white/10 transition-all duration-500 hover:bg-white/10"
                                             style={{
-                                                boxShadow: `0 0 20px ${tempColor}10`
+                                                boxShadow: `0 0 15px ${tempColor}10`
                                             }}
                                         >
-                                            <h3 className="text-white/80 text-xs font-medium mb-2">Modo Diario</h3>
-                                            <div className="space-y-1.5">
+                                            <h3 className="text-white/80 text-xs sm:text-sm font-medium mb-2">Modo Diario</h3>
+                                            <div className="space-y-1 sm:space-y-1.5">
                                                 <div className="flex justify-between items-center">
-                                                    <span className="text-white/60 text-xs">Victorias</span>
-                                                    <span className="text-white text-sm font-medium">{stats?.stats?.daily_wins || 0}</span>
+                                                    <span className="text-white/60 text-xs sm:text-sm">Victorias</span>
+                                                    <span className="text-white text-xs sm:text-sm font-medium">{stats?.stats?.daily_wins || 0}</span>
                                                 </div>
                                                 <div className="flex justify-between items-center">
-                                                    <span className="text-white/60 text-xs">Mejor racha</span>
-                                                    <span className="text-white text-sm font-medium">{stats?.stats?.best_daily_streak || 0} días</span>
+                                                    <span className="text-white/60 text-xs sm:text-sm">Mejor racha</span>
+                                                    <span className="text-white text-xs sm:text-sm font-medium">{stats?.stats?.best_daily_streak || 0} días</span>
                                                 </div>
                                                 <div className="flex justify-between items-center">
-                                                    <span className="text-white/60 text-xs">Racha actual</span>
-                                                    <span className="text-white text-sm font-medium">{stats?.stats?.daily_current_streak || 0} días</span>
+                                                    <span className="text-white/60 text-xs sm:text-sm">Racha actual</span>
+                                                    <span className="text-white text-xs sm:text-sm font-medium">{stats?.stats?.daily_current_streak || 0} días</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div 
-                                            className="bg-white/5 rounded-lg p-3 border border-white/10 transition-all duration-500 hover:bg-white/10"
+                                            className="bg-white/5 rounded-lg p-2 sm:p-3 border border-white/10 transition-all duration-500 hover:bg-white/10"
                                             style={{
-                                                boxShadow: `0 0 20px ${tempColor}10`
+                                                boxShadow: `0 0 15px ${tempColor}10`
                                             }}
                                         >
-                                            <h3 className="text-white/80 text-xs font-medium mb-2">Modo Infinito</h3>
-                                            <div className="space-y-1.5">
+                                            <h3 className="text-white/80 text-xs sm:text-sm font-medium mb-2">Modo Infinito</h3>
+                                            <div className="space-y-1 sm:space-y-1.5">
                                                 <div className="flex justify-between items-center">
-                                                    <span className="text-white/60 text-xs">Victorias</span>
-                                                    <span className="text-white text-sm font-medium">{stats?.stats?.infinite_wins || 0}</span>
+                                                    <span className="text-white/60 text-xs sm:text-sm">Victorias</span>
+                                                    <span className="text-white text-xs sm:text-sm font-medium">{stats?.stats?.infinite_wins || 0}</span>
                                                 </div>
                                                 <div className="flex justify-between items-center">
-                                                    <span className="text-white/60 text-xs">Mejor racha</span>
-                                                    <span className="text-white text-sm font-medium">{stats?.stats?.best_infinite_streak || 0} palabras</span>
+                                                    <span className="text-white/60 text-xs sm:text-sm">Mejor racha</span>
+                                                    <span className="text-white text-xs sm:text-sm font-medium">{stats?.stats?.best_infinite_streak || 0} palabras</span>
                                                 </div>
                                                 <div className="flex justify-between items-center">
-                                                    <span className="text-white/60 text-xs">Racha actual</span>
-                                                    <span className="text-white text-sm font-medium">{stats?.stats?.infinite_current_streak || 0} palabras</span>
+                                                    <span className="text-white/60 text-xs sm:text-sm">Racha actual</span>
+                                                    <span className="text-white text-xs sm:text-sm font-medium">{stats?.stats?.infinite_current_streak || 0} palabras</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-1 gap-3">
+                                    <div className="grid grid-cols-1 gap-2 sm:gap-3">
                                         <div 
-                                            className="bg-white/5 rounded-lg p-3 border border-white/10 transition-all duration-500 hover:bg-white/10"
+                                            className="bg-white/5 rounded-lg p-2 sm:p-3 border border-white/10 transition-all duration-500 hover:bg-white/10"
                                             style={{
-                                                boxShadow: `0 0 20px ${tempColor}10`
+                                                boxShadow: `0 0 15px ${tempColor}10`
                                             }}
                                         >
-                                            <h3 className="text-white/80 text-xs font-medium mb-2">Rendimiento</h3>
-                                            <div className="space-y-1.5">
+                                            <h3 className="text-white/80 text-xs sm:text-sm font-medium mb-2">Rendimiento</h3>
+                                            <div className="space-y-1 sm:space-y-1.5">
                                                 <div className="flex justify-between items-center">
-                                                    <span className="text-white/60 text-xs">Promedio de intentos</span>
-                                                    <span className="text-white text-sm font-medium">
+                                                    <span className="text-white/60 text-xs sm:text-sm">Promedio de intentos</span>
+                                                    <span className="text-white text-xs sm:text-sm font-medium">
                                                         {Number(stats?.stats?.avg_attempts_win || 0).toFixed(2)}
                                                     </span>
                                                 </div>
                                                 <div className="flex justify-between items-center">
-                                                    <span className="text-white/60 text-xs">Tiempo promedio</span>
-                                                    <span className="text-white text-sm font-medium">
+                                                    <span className="text-white/60 text-xs sm:text-sm">Tiempo promedio</span>
+                                                    <span className="text-white text-xs sm:text-sm font-medium">
                                                         {Number(stats?.stats?.avg_time_win || 0).toFixed(2)}s
                                                     </span>
                                                 </div>
                                                 <div className="flex justify-between items-center">
-                                                    <span className="text-white/60 text-xs">Total de juegos</span>
-                                                    <span className="text-white text-sm font-medium">{stats?.stats?.total_games || 0}</span>
+                                                    <span className="text-white/60 text-xs sm:text-sm">Total de juegos</span>
+                                                    <span className="text-white text-xs sm:text-sm font-medium">{stats?.stats?.total_games || 0}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -490,23 +490,23 @@ export default function Perfil() {
                             )}
 
                             {activeTab === 'perfil' && (
-                                <div className="space-y-6">
+                                <div className="space-y-4 sm:space-y-6">
                                     <div>
-                                        <h2 className="text-white/80 text-sm font-medium mb-4">Color de perfil</h2>
-                                        <div className="grid grid-cols-4 gap-4">
+                                        <h2 className="text-white/80 text-xs sm:text-sm font-medium mb-3 sm:mb-4">Color de perfil</h2>
+                                        <div className="grid grid-cols-4 gap-3 sm:gap-4">
                                             {colors.map((color) => (
                                                 <button
                                                     key={color}
                                                     onClick={() => handleColorSelect(color)}
                                                     disabled={isUpdating}
-                                                    className={`group relative h-16 rounded-xl transition-all duration-300 overflow-hidden ${
+                                                    className={`group relative h-12 sm:h-16 rounded-lg sm:rounded-xl transition-all duration-300 overflow-hidden ${
                                                         tempColor === color 
                                                             ? 'ring-2 ring-white scale-105' 
                                                             : 'hover:scale-102'
                                                     }`}
                                                     style={{ 
                                                         backgroundColor: color,
-                                                        boxShadow: tempColor === color ? `0 0 20px ${color}40` : 'none'
+                                                        boxShadow: tempColor === color ? `0 0 15px ${color}40` : 'none'
                                                     }}
                                                 >
                                                     <div 
@@ -520,7 +520,7 @@ export default function Perfil() {
                                         <button
                                             onClick={handleSaveColor}
                                             disabled={isUpdating || tempColor === selectedColor}
-                                            className={`mt-6 w-full px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                                            className={`mt-4 sm:mt-6 w-full px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 ${
                                                 isUpdating || tempColor === selectedColor
                                                     ? 'bg-gray-500/20 text-gray-400 cursor-not-allowed'
                                                     : 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 border border-emerald-500/20 hover:border-emerald-500/40'
@@ -532,7 +532,7 @@ export default function Perfil() {
 
                                     <button
                                         onClick={handleLogout}
-                                        className="w-full bg-red-500/10 hover:bg-red-500/20 text-red-400 px-6 py-3 rounded-xl text-sm tracking-wide transition-all duration-300 border border-red-500/20 hover:border-red-500/40"
+                                        className="w-full bg-red-500/10 hover:bg-red-500/20 text-red-400 px-4 py-2 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm tracking-wide transition-all duration-300 border border-red-500/20 hover:border-red-500/40"
                                     >
                                         Cerrar Sesión
                                     </button>

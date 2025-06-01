@@ -24,14 +24,17 @@ export default function VirtualKeyboard({
 }) {
     return (
         <motion.div
-            className="fixed bottom-4 sm:bottom-8 w-full max-w-[500px] mx-auto left-0 right-0 py-2 sm:py-4 px-2 sm:px-4 z-10"
+            className="fixed bottom-0 sm:bottom-4 md:bottom-8 w-full max-w-[500px] mx-auto left-0 right-0 py-2 sm:py-4 px-2 sm:px-4 z-10"
+            style={{
+                paddingBottom: 'env(safe-area-inset-bottom)'
+            }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
         >
-            <div className="w-full mx-auto space-y-1 sm:space-y-2">
+            <div className="w-full mx-auto space-y-1 sm:space-y-2 md:space-y-3">
                 {keyboardLayout.map((row, rowIndex) => (
-                    <div key={rowIndex} className="flex justify-center gap-0.5 sm:gap-1">
+                    <div key={rowIndex} className="flex justify-center gap-0.5 sm:gap-1 md:gap-2">
                         {row.map((key) => {
                             const keyState = getKeyState(key);
                             const isSpecialKey = key === 'ENTER' || key === '⌫';
@@ -47,13 +50,14 @@ export default function VirtualKeyboard({
                                     }}
                                     onClick={() => onKeyPress(key)}
                                     disabled={!isWordReady || isTransitioning || (!isSpecialKey && currentGuess.length >= wordLength)}
-                                    className={`px-2 sm:px-3 py-2 sm:py-3 rounded-lg text-xs sm:text-sm font-bold uppercase
-                                        ${isSpecialKey ? 'w-16 sm:w-20' : 'w-8 sm:w-10'}
+                                    className={`px-1 sm:px-2 md:px-3 py-1.5 sm:py-2 md:py-3 rounded-lg text-xs sm:text-sm md:text-base font-bold uppercase
+                                        ${isSpecialKey ? 'w-12 sm:w-16 md:w-20' : 'w-6 sm:w-8 md:w-10'}
                                         ${isSpecialKey ? 'bg-gray-700/50 hover:bg-gray-600/50' : keyColors[keyState]}
                                         ${(!isSpecialKey && currentGuess.length >= wordLength) || !isWordReady || isTransitioning ? 'opacity-50 cursor-not-allowed' : ''}
                                         text-white transition-all duration-200 shadow-lg
                                         ${isActive ? 'ring-2 ring-white/50' : ''}
-                                        font-mono tracking-wider relative`}
+                                        font-mono tracking-wider relative
+                                        touch-manipulation`}
                                     style={{
                                         backgroundColor: !isWordReady || isTransitioning ? 'rgba(31, 41, 55, 0.5)' :
                                                        isActive ? 'rgba(255,255,255,0.2)' : 
@@ -62,7 +66,8 @@ export default function VirtualKeyboard({
                                                        keyState === 'present' ? '#eab308' :
                                                        keyState === 'absent' ? '#111827' :
                                                        'rgba(71, 85, 105, 0.5)',
-                                        boxShadow: '0 0 10px rgba(255,255,255,0.1)'
+                                        boxShadow: '0 0 10px rgba(255,255,255,0.1)',
+                                        WebkitTapHighlightColor: 'transparent'
                                     }}
                                 >
                                     {key}

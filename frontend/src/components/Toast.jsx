@@ -5,7 +5,7 @@ export default function Toast({ message, type = 'info', isVisible, onClose }) {
         hidden: { 
             opacity: 0, 
             scale: 0.8,
-            y: -100,
+            y: window.innerWidth < 640 ? 50 : -100,
             x: '-50%'
         },
         visible: { 
@@ -22,7 +22,7 @@ export default function Toast({ message, type = 'info', isVisible, onClose }) {
         exit: { 
             opacity: 0, 
             scale: 0.8,
-            y: -100,
+            y: window.innerWidth < 640 ? 50 : -100,
             x: '-50%',
             transition: {
                 duration: 0.2
@@ -51,23 +51,27 @@ export default function Toast({ message, type = 'info', isVisible, onClose }) {
                     initial="hidden"
                     animate="visible"
                     exit="exit"
-                    className={`fixed top-20 left-1/2 z-[99999]
+                    className={`fixed ${
+                        window.innerWidth < 640 
+                            ? 'bottom-[200px]' 
+                            : 'top-20'
+                        } left-1/2 z-20
                         ${getTypeStyles()} 
-                        px-6 py-3 rounded-xl
-                        flex items-center gap-3 border
-                        font-mono tracking-wider min-w-[300px] max-w-[90vw]
+                        px-4 sm:px-6 py-2 sm:py-3 rounded-xl
+                        flex items-center gap-2 sm:gap-3 border
+                        font-mono tracking-wider min-w-[280px] sm:min-w-[300px] max-w-[90vw]
                         backdrop-blur-xl bg-opacity-90
                         shadow-[0_0_50px_rgba(0,0,0,0.3)]`}
                     style={{
                         position: 'fixed',
-                        zIndex: 99999
+                        zIndex: 20
                     }}
                 >
                     <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ type: "spring", stiffness: 500, damping: 15 }}
-                        className="text-2xl bg-white/10 p-2 rounded-lg"
+                        className="text-xl sm:text-2xl bg-white/10 p-1.5 sm:p-2 rounded-lg"
                     >
                         {type === 'success' && '🎮'}
                         {type === 'error' && '💀'}
@@ -75,8 +79,8 @@ export default function Toast({ message, type = 'info', isVisible, onClose }) {
                         {type === 'info' && 'ℹ️'}
                     </motion.div>
                     <div className="flex flex-col">
-                        <span className="text-base font-black uppercase tracking-wider">{message}</span>
-                        <span className="text-xs opacity-70">
+                        <span className="text-sm sm:text-base font-black uppercase tracking-wider">{message}</span>
+                        <span className="text-[10px] sm:text-xs opacity-70">
                             {type === 'success' && '¡Excelente trabajo!'}
                             {type === 'error' && '¡Inténtalo de nuevo!'}
                             {type === 'warning' && '¡Ten cuidado!'}

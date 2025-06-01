@@ -3,9 +3,7 @@ import { getFriends, acceptFriendRequest, removeFriend } from '../services/frien
 import { useCategory } from '../context/CategoryContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-hot-toast';
-import FriendSearch from './FriendSearch';
 
-// Componentes subordinados
 const FriendCard = ({ friend, onRemove, isProcessing, categoryStyle }) => (
     <motion.div
         initial={{ opacity: 0, y: 10 }}

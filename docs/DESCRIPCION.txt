@@ -1,0 +1,544 @@
+DESCRIPCIÓN DE CLASES Y COMPONENTES - GEEKDLE
+
+1. COMPONENTES PRINCIPALES DEL JUEGO
+-----------------------------------
+
+GameBoard (Tablero Principal)
+Propósito: Visualización y gestión del juego principal
+
+Funcionalidades:
+  - Renderizado de la cuadrícula de letras
+  - Validación de intentos
+  - Animaciones de letras con Framer Motion
+  - Estados: correcto, presente, ausente
+  - Sistema de grid responsive
+  - Integración con teclado virtual
+
+Props principales:
+  - word: Palabra a adivinar
+  - attempts: Intentos realizados
+  - onGuess: Callback para intentos
+  - maxAttempts: Máximo de intentos
+  - category: Categoría actual
+
+VirtualKeyboard (Teclado Virtual)
+Propósito: Entrada de texto y retroalimentación
+
+Funcionalidades:
+  - Soporte para teclado físico y virtual
+  - Estados visuales de teclas
+  - Animaciones de pulsación
+  - Sonidos de teclas
+  - Modo táctil
+
+Props principales:
+  - onKeyPress: Callback para teclas
+  - usedKeys: Estado de teclas usadas
+  - disabled: Estado de deshabilitación
+
+HintsModal (Sistema de Pistas)
+Propósito: Proporcionar ayuda al jugador
+
+Funcionalidades:
+  - Pistas contextuales
+  - Sistema de pistas limitadas
+  - Animaciones de transición
+  - Integración con sistema de puntos
+
+Props principales:
+  - hints: Lista de pistas disponibles
+  - onUseHint: Callback al usar pista
+  - remainingHints: Pistas restantes
+
+2. COMPONENTES DE NAVEGACIÓN
+---------------------------
+
+Navegacion (Barra de Navegación)
+Propósito: Navegación principal y gestión de usuario
+
+Funcionalidades:
+  - Menú de usuario con animaciones
+  - Estado de autenticación
+  - Notificaciones en tiempo real
+  - Rutas protegidas
+
+Props principales:
+  - user: Datos del usuario
+  - notifications: Notificaciones
+  - onLogout: Callback de cierre de sesión
+
+CategorySidebar (Selector de Categorías)
+Propósito: Navegación y filtrado por categorías
+
+Funcionalidades:
+  - Filtrado de palabras
+  - Navegación por categorías
+  - Estado de selección persistente
+  - Caché de categorías
+
+Props principales:
+  - categories: Lista de categorías
+  - selectedCategory: Categoría actual
+  - onSelect: Callback de selección
+
+3. COMPONENTES SOCIALES
+----------------------
+
+FriendsList (Lista de Amigos)
+Propósito: Gestión de amistades y social
+
+Funcionalidades:
+  - Lista de amigos en tiempo real
+  - Chat integrado
+  - Notificaciones push
+  - Estados de conexión
+
+Props principales:
+  - friends: Lista de amigos
+  - onAdd: Callback para añadir
+  - onRemove: Callback para eliminar
+  - onChallenge: Callback para desafiar
+
+Ranking (Sistema de Clasificación)
+Propósito: Visualización de puntuaciones
+
+Funcionalidades:
+  - Tabla de puntuaciones
+  - Paginación
+  - Filtros de clasificación
+  - Actualización en tiempo real
+
+Props principales:
+  - data: Datos de clasificación
+  - timeRange: Rango de tiempo
+  - category: Categoría
+  - onFilter: Callback de filtrado
+
+4. SERVICIOS PRINCIPALES
+-----------------------
+
+WordService
+Propósito: Gestión de palabras y progreso
+
+Funciones principales:
+  - checkPlayerProgress(mode, category)
+  - getDailyWord(mode, category, prompt)
+  - checkWord(word, mode, category)
+  - updateProgress(mode, category, word, attempts, timeTaken, boardMapping, isCorrect)
+  - generateDailyWords()
+
+Características:
+  - Validación de límites diarios
+  - Sistema de rotación de palabras
+  - Caché de progreso
+  - Generación de pistas
+
+FriendService
+Propósito: Gestión de amistades y social
+
+Funciones principales:
+  - getFriends()
+  - searchUsers(query)
+  - sendFriendRequest(userId)
+  - acceptFriendRequest(requestId)
+  - removeFriend(friendId)
+  - getFriendsRanking()
+
+Características:
+  - Búsqueda en tiempo real
+  - Sistema de notificaciones
+  - Gestión de estados de conexión
+  - Caché de lista de amigos
+
+HistoryService
+Propósito: Gestión del historial de partidas
+
+Funciones principales:
+  - getGameHistory()
+  - getGameHistoryByMode(mode)
+  - clearCache()
+
+Características:
+  - Caché de 5 minutos
+  - Paginación de resultados
+  - Filtrado por modo
+  - Exportación de datos
+
+5. CONTEXTOS
+-----------
+
+AuthContext
+Propósito: Gestión de autenticación
+
+Estado:
+  - user: Usuario actual
+  - isAuthenticated: Estado de autenticación
+  - token: Token de acceso
+  - refreshToken: Token de actualización
+
+Métodos:
+  - login: Inicio de sesión
+  - logout: Cierre de sesión
+  - register: Registro
+  - refreshToken: Actualizar token
+  - updateProfile: Actualizar perfil
+
+GameModeContext
+Propósito: Gestión de modos de juego
+
+Estado:
+  - currentMode: Modo actual
+  - difficulty: Dificultad
+  - customRules: Reglas personalizadas
+  - preferences: Preferencias
+
+Métodos:
+  - setMode: Cambiar modo
+  - updateDifficulty: Actualizar dificultad
+  - savePreferences: Guardar preferencias
+
+CategoryContext
+Propósito: Gestión de categorías
+
+Estado:
+  - selectedCategory: Categoría actual
+  - categories: Lista de categorías
+  - categoryStats: Estadísticas por categoría
+
+Métodos:
+  - selectCategory: Seleccionar categoría
+  - updateStats: Actualizar estadísticas
+  - clearSelection: Limpiar selección
+
+6. BACKEND
+---------
+
+Modelos
+-------
+
+User (Modelo)
+Propósito: Gestión de usuarios y autenticación
+
+Campos principales:
+  - id: Integer
+  - name: String
+  - username: String (único)
+  - email: String (único)
+  - password: String (hasheada)
+  - avatar_url: String
+  - level: Integer
+  - points: Integer
+  - is_active: Boolean
+  - role: String (user/admin/moderator)
+  - avatarColor: String
+  - email_verified_at: DateTime
+  - remember_token: String
+
+Métodos:
+  - isAdmin(): Verifica si es administrador
+  - isModerator(): Verifica si es moderador
+  - hasRole($role): Verifica rol específico
+  - userGameResults(): Relación con resultados
+  - games(): Relación con partidas
+
+Game (Modelo)
+Propósito: Registro de partidas
+
+Campos principales:
+  - id: Integer
+  - user_id: Integer (ref: User)
+  - category: String
+  - solution: String
+  - attempts: Integer
+  - date: DateTime
+  - board_mapping: Array
+  - created_at: DateTime
+  - updated_at: DateTime
+
+Métodos:
+  - user(): Relación con usuario
+
+GameResult (Modelo)
+Propósito: Resultados de partidas
+
+Campos principales:
+  - id: Integer
+  - user_id: Integer (ref: User)
+  - game_id: Integer (ref: Game)
+  - result_status: String
+  - tries: Integer
+  - time_taken: Integer
+  - created_at: DateTime
+  - updated_at: DateTime
+
+Word (Modelo)
+Propósito: Gestión de palabras
+
+Campos principales:
+  - id: Integer
+  - word: String
+  - category: String
+  - created_at: DateTime
+  - updated_at: DateTime
+
+DailyWord (Modelo)
+Propósito: Palabras diarias
+
+Campos principales:
+  - id: Integer
+  - word: String
+  - date: Date
+  - created_at: DateTime
+  - updated_at: DateTime
+
+Friend (Modelo)
+Propósito: Gestión de amistades
+
+Campos principales:
+  - id: Integer
+  - user_id: Integer (ref: User)
+  - friend_id: Integer (ref: User)
+  - status: String
+  - created_at: DateTime
+  - updated_at: DateTime
+
+Challenge (Modelo)
+Propósito: Desafíos entre usuarios
+
+Campos principales:
+  - id: Integer
+  - challenger_id: Integer (ref: User)
+  - challenged_id: Integer (ref: User)
+  - word: String
+  - status: String
+  - created_at: DateTime
+  - updated_at: DateTime
+
+GameStat (Modelo)
+Propósito: Estadísticas de juego
+
+Campos principales:
+  - id: Integer
+  - user_id: Integer (ref: User)
+  - games_played: Integer
+  - games_won: Integer
+  - current_streak: Integer
+  - max_streak: Integer
+  - created_at: DateTime
+  - updated_at: DateTime
+
+Endpoints
+---------
+
+Autenticación
+Propósito: Gestión de usuarios y sesiones
+
+Endpoints:
+  - POST /api/auth/register
+    * Registro de nuevos usuarios
+    * Validación de datos
+    * Creación de perfil inicial
+  - POST /api/auth/login
+    * Inicio de sesión
+    * Generación de token
+    * Actualización de último acceso
+  - POST /api/auth/logout
+    * Cierre de sesión
+    * Invalidación de token
+
+Juego
+Propósito: Gestión de partidas
+
+Endpoints:
+  - POST /api/games/start
+    * Inicio de nueva partida
+    * Selección de palabra
+    * Inicialización de estado
+  - POST /api/games/guess
+    * Validación de intento
+    * Actualización de progreso
+    * Generación de feedback
+  - POST /api/games/end
+    * Finalización de partida
+    * Cálculo de puntuación
+    * Actualización de estadísticas
+  - GET /api/games/history
+    * Historial de partidas
+    * Filtrado por fecha
+    * Paginación de resultados
+
+Palabras
+Propósito: Gestión del diccionario
+
+Endpoints:
+  - GET /api/words/daily
+    * Obtención de palabra del día
+    * Validación de categoría
+  - POST /api/words/check
+    * Validación de palabra
+    * Verificación de existencia
+
+Amigos
+Propósito: Gestión de relaciones sociales
+
+Endpoints:
+  - GET /api/friends
+    * Listado de amigos
+    * Estado de conexión
+  - POST /api/friends/request
+    * Envío de solicitud
+    * Notificación al destinatario
+  - PUT /api/friends/accept
+    * Aceptación de solicitud
+    * Actualización de estado
+  - DELETE /api/friends
+    * Eliminación de amistad
+    * Limpieza de chat
+
+7. CONTROLADORES
+---------------
+
+AuthController (Controlador)
+Propósito: Gestión de autenticación y usuarios
+
+Funcionalidades:
+  - Registro de usuarios
+  - Autenticación y sesiones
+  - Gestión de tokens
+  - Perfil de usuario
+
+Métodos principales:
+  - register(Request $request)
+    * Validación de datos (username, email, password)
+    * Creación de usuario con nivel 1 y 0 puntos
+    * Generación de token de autenticación
+  - login(Request $request)
+    * Validación de credenciales
+    * Generación de token de sesión
+    * Manejo de errores de autenticación
+  - me(Request $request)
+    * Obtención de datos del usuario actual
+  - logout(Request $request)
+    * Eliminación del token actual
+    * Cierre de sesión
+  - updateAvatarColor(Request $request)
+    * Actualización del color del avatar
+    * Validación de formato hexadecimal
+
+GameController (Controlador)
+Propósito: Gestión de partidas y estadísticas
+
+Funcionalidades:
+  - Partidas diarias
+  - Sistema de intentos
+  - Estadísticas de juego
+  - Historial de partidas
+
+Métodos principales:
+  - getDailyGame()
+    * Obtención del juego diario
+  - submitGuess(Request $request, Game $game)
+    * Registro de intentos
+  - saveGameResult(Request $request)
+    * Validación de datos del juego
+    * Registro de resultado
+    * Actualización de estadísticas
+    * Cálculo de puntos y nivel
+  - getUserStats()
+    * Estadísticas diarias e infinitas
+    * Cálculo de rachas y victorias
+    * Promedios de intentos y tiempo
+  - getGameHistory()
+    * Historial de partidas
+    * Filtrado por usuario
+    * Ordenamiento por fecha
+
+WordController (Controlador)
+Propósito: Gestión de palabras y diccionario
+
+Funcionalidades:
+  - Palabras diarias
+  - Validación de palabras
+  - Sistema de pistas
+  - Generación de palabras
+
+Métodos principales:
+  - getDailyWord()
+    * Obtención de palabra del día
+  - checkWord(Request $request)
+    * Validación de existencia
+    * Verificación de formato
+  - getHints(Request $request)
+    * Obtención de pistas disponibles
+  - generateDailyWords()
+    * Generación de palabras diarias
+
+FriendController (Controlador)
+Propósito: Gestión de amistades
+
+Funcionalidades:
+  - Lista de amigos
+  - Solicitudes de amistad
+  - Gestión de relaciones
+  - Estado de conexión
+
+Métodos principales:
+  - getFriends()
+    * Listado de amigos
+  - sendRequest(Request $request)
+    * Envío de solicitud
+  - acceptRequest(Request $request)
+    * Aceptación de solicitud
+  - removeFriend(Request $request)
+    * Eliminación de amistad
+
+ChallengeController (Controlador)
+Propósito: Gestión de desafíos
+
+Funcionalidades:
+  - Creación de desafíos
+  - Aceptación de retos
+  - Listado de desafíos
+  - Estado de desafíos
+
+Métodos principales:
+  - createChallenge(Request $request)
+    * Creación de desafío
+  - acceptChallenge(Request $request)
+    * Aceptación de desafío
+  - getChallenges()
+    * Listado de desafíos
+
+AdminController (Controlador)
+Propósito: Funciones administrativas
+
+Funcionalidades:
+  - Gestión de usuarios
+  - Modificación de perfiles
+  - Eliminación de usuarios
+  - Control de acceso
+
+Métodos principales:
+  - getUsers()
+    * Listado de usuarios
+  - updateUser(Request $request)
+    * Actualización de usuario
+  - deleteUser(Request $request)
+    * Eliminación de usuario
+
+UserController (Controlador)
+Propósito: Gestión de perfiles
+
+Funcionalidades:
+  - Actualización de perfil
+  - Obtención de datos
+  - Preferencias de usuario
+  - Configuración personal
+
+Métodos principales:
+  - updateProfile(Request $request)
+    * Actualización de perfil
+  - getProfile()
+    * Obtención de perfil
+  - updatePreferences(Request $request)
+    * Actualización de preferencias 

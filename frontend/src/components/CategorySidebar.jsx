@@ -44,7 +44,6 @@ const CategorySidebar = () => {
 
         checkCompletedCategories();
 
-        // Añadir listener para el evento categoryCompleted
         const handleCategoryCompleted = (event) => {
             const { category } = event.detail;
             setCompletedCategories(prev => {
@@ -67,14 +66,15 @@ const CategorySidebar = () => {
 
     return (
         <>
+            {/* Botón de categorías - Visible en todas las pantallas */}
             <motion.button
                 onClick={toggleVisibility}
-                className="fixed left-8 top-24 z-50 bg-black/40 backdrop-blur-xl rounded-lg px-4 py-2.5 border border-white/5 hover:bg-white/5 transition-all duration-200 flex items-center gap-2 group shadow-lg"
+                className="fixed left-4 lg:left-8 top-24 z-40 bg-black/40 backdrop-blur-xl rounded-lg px-3 lg:px-4 py-2 lg:py-2.5 border border-white/5 hover:bg-white/5 transition-all duration-200 flex items-center gap-2 group shadow-lg"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
             >
                 <svg 
-                    className="w-5 h-5"
+                    className="w-4 h-4 lg:w-5 lg:h-5"
                     style={{ color: currentStyle.primaryColor }}
                     fill="none" 
                     stroke="currentColor" 
@@ -82,33 +82,66 @@ const CategorySidebar = () => {
                 >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
-                <span className="text-sm font-medium text-white/80 group-hover:text-white transition-colors duration-200">
+                <span className="hidden lg:inline text-sm font-medium text-white/80 group-hover:text-white transition-colors duration-200">
                     Categorías
                 </span>
             </motion.button>
 
             <AnimatePresence mode="wait">
                 {isVisible && (
+                    <>
+                        {/* Overlay para móvil */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={toggleVisibility}
+                            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 lg:hidden"
+                        />
+
+                        {/* Panel de categorías */}
                     <motion.div
-                        initial={{ opacity: 0, x: -100, scale: 0.95 }}
-                        animate={{ opacity: 1, x: 0, scale: 1 }}
-                        exit={{ opacity: 0, x: -100, scale: 0.95 }}
+                            initial={{ 
+                                opacity: 0, 
+                                x: window.innerWidth < 1024 ? 0 : -100,
+                                y: window.innerWidth < 1024 ? '100%' : 0,
+                                scale: 0.95 
+                            }}
+                            animate={{ 
+                                opacity: 1, 
+                                x: 0,
+                                y: 0,
+                                scale: 1 
+                            }}
+                            exit={{ 
+                                opacity: 0, 
+                                x: window.innerWidth < 1024 ? 0 : -100,
+                                y: window.innerWidth < 1024 ? '100%' : 0,
+                                scale: 0.95 
+                            }}
                         transition={{ 
                             type: "spring", 
                             stiffness: 300, 
                             damping: 30
                         }}
-                        className="fixed left-8 top-36 w-80 bg-black/40 backdrop-blur-xl rounded-xl border border-white/5 overflow-hidden shadow-2xl z-50"
+                            className={`fixed ${
+                                window.innerWidth < 1024 
+                                    ? 'bottom-0 left-0 right-0 w-full rounded-t-2xl' 
+                                    : 'left-8 top-36 w-80 rounded-xl'
+                            } bg-black/40 backdrop-blur-xl border border-white/5 overflow-hidden shadow-2xl z-40`}
+                            style={{
+                                maxHeight: window.innerWidth < 1024 ? '80vh' : '500px'
+                            }}
                     >
                         <motion.div 
-                            className="p-4 border-b border-white/5 bg-black/20"
+                                className="p-3 lg:p-4 border-b border-white/5 bg-black/20 flex items-center justify-between"
                             initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1 }}
                         >
-                            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                                <h2 className="text-lg lg:text-xl font-bold text-white flex items-center gap-2">
                                 <svg 
-                                    className="w-5 h-5" 
+                                        className="w-4 h-4 lg:w-5 lg:h-5" 
                                     style={{ color: currentStyle.primaryColor }}
                                     fill="none" 
                                     stroke="currentColor" 
@@ -118,8 +151,17 @@ const CategorySidebar = () => {
                                 </svg>
                                 Selecciona una Categoría
                             </h2>
+                                <button 
+                                    onClick={toggleVisibility}
+                                    className="lg:hidden p-2 hover:bg-white/5 rounded-lg transition-colors"
+                                >
+                                    <svg className="w-5 h-5 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
                         </motion.div>
-                        <div className="h-[500px] overflow-y-auto custom-scrollbar">
+                            <div className="overflow-y-auto custom-scrollbar" style={{ maxHeight: 'calc(80vh - 60px)' }}>
+                                <div className="grid grid-cols-2 lg:grid-cols-1 gap-1 lg:gap-0">
                             {categories.map((category, index) => {
                                 const categoryStyle = getCategoryStyle(category.id);
                                 const isCompleted = completedCategories.has(category.id);
@@ -136,8 +178,13 @@ const CategorySidebar = () => {
                                         }}
                                     >
                                         <motion.button
-                                            onClick={() => setSelectedCategory(category.id)}
-                                            className={`w-full p-3 flex items-center gap-3 border-b border-white/5 hover:bg-white/5 transition-colors duration-200 ${
+                                                    onClick={() => {
+                                                        setSelectedCategory(category.id);
+                                                        if (window.innerWidth < 1024) {
+                                                            toggleVisibility();
+                                                        }
+                                                    }}
+                                                    className={`w-full p-2 lg:p-3 flex items-center gap-2 lg:gap-3 border-b border-white/5 hover:bg-white/5 transition-colors duration-200 ${
                                                 selectedCategory === category.id ? 'bg-opacity-10' : ''
                                             }`}
                                             style={{
@@ -149,21 +196,21 @@ const CategorySidebar = () => {
                                             whileTap={{ scale: 0.98 }}
                                         >
                                             <div className="relative">
-                                                <span className="text-2xl">{category.icon}</span>
+                                                        <span className="text-xl lg:text-2xl">{category.icon}</span>
                                                 {isCompleted && (
                                                     <motion.div
                                                         initial={{ scale: 0 }}
                                                         animate={{ scale: 1 }}
-                                                        className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center"
+                                                                className="absolute -top-1 -right-1 w-3 h-3 lg:w-4 lg:h-4 bg-green-500 rounded-full flex items-center justify-center"
                                                     >
-                                                        <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <svg className="w-2 h-2 lg:w-3 lg:h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                                         </svg>
                                                     </motion.div>
                                                 )}
                                             </div>
                                             <span 
-                                                className="font-medium text-base"
+                                                        className="font-medium text-sm lg:text-base truncate"
                                                 style={{
                                                     color: selectedCategory === category.id 
                                                         ? categoryStyle.primaryColor 
@@ -176,8 +223,10 @@ const CategorySidebar = () => {
                                     </motion.div>
                                 );
                             })}
+                                </div>
                         </div>
                     </motion.div>
+                    </>
                 )}
             </AnimatePresence>
         </>

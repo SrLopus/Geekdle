@@ -16,7 +16,8 @@ export default function GameBoard({
             className="relative z-10 w-full mx-auto"
             style={{
                 maxWidth: `min(95vw, ${wordLength * 4}rem)`,
-                padding: '0 0.5rem'
+                padding: '0 0.5rem',
+                marginTop: 'env(safe-area-inset-top)'
             }}
             initial={{ opacity: 0.5 }}
             animate={{
@@ -29,7 +30,7 @@ export default function GameBoard({
                 ease: "easeInOut"
             }}
         >
-            <div className="grid grid-rows-6 gap-1 sm:gap-2">
+            <div className="grid grid-rows-6 gap-1 sm:gap-2 md:gap-3">
                 {Array.from({ length: MAX_ATTEMPTS }).map((_, rowIndex) => (
                     <motion.div
                         key={rowIndex}
@@ -69,12 +70,13 @@ export default function GameBoard({
                                         ${letter ? state : shakeRow === rowIndex ? 'border-2 border-red-400' : 'border-2 border-white/20'} 
                                         ${letter ? 'text-white' : 'text-transparent'}
                                         font-mono tracking-wider relative
-                                        ${isInitialLoad || isTransitioning ? 'bg-gray-800/50' : ''}`}
+                                        ${isInitialLoad || isTransitioning ? 'bg-gray-800/50' : ''}
+                                        sm:border-[3px] md:border-4`}
                                     style={{
                                         boxShadow: letter ? '0 0 10px rgba(255,255,255,0.1)' : 'none',
                                         backgroundColor: isInitialLoad || isTransitioning ? 'rgba(31, 41, 55, 0.5)' : 
                                                        letter ? '' : 'transparent',
-                                        fontSize: `min(${wordLength > 5 ? '1.25rem' : '1.5rem'}, ${100 / (wordLength * 1.5)}vw)`
+                                        fontSize: `clamp(1rem, ${100 / (wordLength * 1.5)}vw, ${wordLength > 5 ? '1.25rem' : '1.5rem'})`
                                     }}
                                 >
                                     {letter}

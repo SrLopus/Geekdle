@@ -6,7 +6,6 @@
   [![React](https://img.shields.io/badge/React-18.2.0-blue)](https://reactjs.org/)
   [![Laravel](https://img.shields.io/badge/Laravel-10.x-red)](https://laravel.com/)
   [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.x-38B2AC)](https://tailwindcss.com/)
-  [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.md)
 </div>
 
 ## 📚 Índice
@@ -127,8 +126,7 @@ php artisan serve
 ```
 Geekdle/
 ├── frontend/          # Aplicación React
-├── backend/           # API Laravel
-└── docs/             # Documentación
+└── backend/           # API Laravel
 ```
 
 ### Scripts Disponibles
